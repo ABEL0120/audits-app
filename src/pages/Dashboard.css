@@ -1,0 +1,132 @@
+.dark-bg {
+	--background: #121212;
+	background-color: #121212;
+	color: #e5e5e5;
+}
+
+.dark-toolbar {
+	--background: linear-gradient(135deg, #1f1f1f 0%, #2c2c2c 100%);
+	color: #ffffff;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.toolbar-title {
+	font-weight: bold;
+	letter-spacing: 0.5px;
+}
+
+.hero-dark {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: linear-gradient(135deg, #1a1a1a 0%, #232323 100%);
+	border: 1px solid #2a2a2a;
+	color: white;
+	padding: 24px;
+	border-radius: 18px;
+	margin-bottom: 20px;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+}
+
+.hero-info h1 {
+	margin: 0;
+	font-size: 1.8rem;
+	font-weight: bold;
+	color: #fff;
+}
+
+.hero-avatar {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	border: 3px solid #3880ff;
+	background-color: #111;
+}
+
+.section-title {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin: 10px 0;
+	color: #eaeaea;
+}
+
+.dark-card {
+	background: linear-gradient(145deg, #181818, #1f1f1f);
+	border-radius: 16px;
+	padding: 16px;
+	margin-bottom: 14px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	color: #eaeaea;
+}
+
+.dark-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+}
+
+.dark-card-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.dark-icon {
+	font-size: 26px;
+	color: #3880ff;
+}
+
+.dark-card-header h2 {
+	font-size: 1rem;
+	font-weight: bold;
+	margin: 0;
+	color: #f5f5f5;
+}
+
+.dark-card-header p {
+	font-size: 0.85rem;
+	color: #aaa;
+	margin: 0;
+}
+
+.dark-card-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 12px;
+}
+
+.completed-section {
+	margin-top: 20px;
+}
+
+.completed-summary {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: bold;
+	color: #3880ff;
+	cursor: pointer;
+	padding: 8px 0;
+}
+
+.completed-list {
+	background-color: #181818;
+	border-radius: 12px;
+	padding: 8px 0;
+}
+
+.completed-item {
+	--background: #181818;
+	color: #eaeaea;
+}
+
+.completed-item h3 {
+	font-size: 0.95rem;
+	font-weight: bold;
+}
+
+.completed-item p {
+	font-size: 0.8rem;
+	color: #888;
+}

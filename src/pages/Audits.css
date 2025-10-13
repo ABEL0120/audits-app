@@ -1,0 +1,326 @@
+:root {
+    --bg-dark: #0d0d0d;
+    --card-bg: #1a1a1a;
+    --card-border: #2a2a2a;
+    --accent-blue: #3b82f6;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-yellow: #facc15;
+    --text-light: #f5f5f5;
+    --text-muted: #9ca3af;
+    --shadow-strong: 0 4px 25px rgba(0, 0, 0, 0.6);
+    --transition-fast: 0.25s ease-in-out;
+}
+
+/* Fondo global */
+.ion-page,
+.dark-theme,
+ion-content {
+    background-color: var(--bg-dark) !important;
+    color: var(--text-light) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Toolbar superior */
+ion-toolbar {
+    background: linear-gradient(90deg, #0f1720 0%, #111 80%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
+}
+
+/* Título principal */
+ion-title {
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: none;
+    letter-spacing: 0.6px;
+    font-size: 1.05rem;
+}
+
+/* CARD PRINCIPAL DE AUDITORÍA */
+.audit-header-card {
+    background: linear-gradient(180deg, rgba(24, 24, 28, 0.9), rgba(16, 16, 18, 0.85));
+    border-radius: 14px;
+    padding: 0;
+    box-shadow: 0 14px 40px rgba(2, 6, 23, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.audit-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    padding: 16px 18px;
+}
+
+.status-badge {
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+/* STATS CARDS */
+.stats-card {
+    background: linear-gradient(180deg, rgba(20, 20, 22, 0.6), rgba(14, 14, 16, 0.6));
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.stats-title {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    margin-bottom: 6px;
+}
+
+.stats-value {
+    font-weight: 800;
+    font-size: 1.25rem;
+}
+
+/* LISTA DE ITEMS */
+.item-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.item-card ion-card-content,
+.item-card .item-card-content {
+    background: linear-gradient(180deg, rgba(18, 18, 20, 0.55), rgba(12, 12, 14, 0.55));
+    padding: 14px 16px;
+}
+
+.item-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(2, 6, 23, 0.6);
+}
+
+/* Botones de resultados */
+.result-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.result-buttons ion-button,
+.result-buttons button {
+    --padding-start: 10px;
+    --padding-end: 10px;
+    border-radius: 8px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+}
+
+.result-pass {
+    background: linear-gradient(90deg, #0ea44b, #10b981);
+}
+
+.result-fail {
+    background: linear-gradient(90deg, #f43f5e, #ef4444);
+}
+
+.result-na {
+    background: linear-gradient(90deg, #6b7280, #4b5563);
+}
+
+/* BADGES */
+ion-badge {
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    padding: 6px 12px;
+    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.45);
+}
+
+/* MODALS */
+ion-modal {
+    --background: linear-gradient(180deg, rgba(6, 8, 12, 0.9), rgba(12, 14, 18, 0.95));
+    color: var(--text-light);
+    --border-radius: 14px;
+    padding: 8px;
+}
+
+ion-item {
+    --background: transparent;
+    color: var(--text-light);
+}
+
+ion-label {
+    color: var(--text-light);
+}
+
+/* FOOTER ACTIONS */
+.footer-actions {
+    position: sticky;
+    bottom: 14px;
+    display: flex;
+    gap: 12px;
+    background: linear-gradient(180deg, rgba(12, 12, 12, 0.65), rgba(8, 8, 8, 0.55));
+    padding: 12px;
+    border-radius: 14px;
+    justify-content: center;
+    margin-top: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* BOTONES */
+ion-button {
+    --border-radius: 10px;
+    --background: var(--accent-blue);
+    --background-hover: #2563eb;
+    --color: white;
+    font-weight: 800;
+    text-transform: none;
+    transition: transform 120ms ease, box-shadow 140ms ease;
+}
+
+ion-button[color="danger"] {
+    --background: var(--accent-red);
+}
+
+ion-button[color="medium"] {
+    --background: #4b5563;
+}
+
+ion-button:hover {
+    transform: translateY(-2px);
+}
+
+ion-button:active {
+    transform: translateY(0);
+}
+
+/* Modal internals */
+
+.modal-container {
+    padding: 20px;
+    color: var(--text-light);
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.modal-container h3 {
+    margin-top: 0;
+    font-size: 1.15rem;
+    letter-spacing: 0.4px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 14px;
+}
+
+.file-input {
+    width: 100%;
+    padding: 10px 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    color: var(--text-light);
+}
+
+.items-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.item-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.item-title {
+    color: var(--text-light);
+    font-weight: 800;
+    font-size: 0.96rem;
+}
+
+.item-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.audit-header-info .audit-code {
+    font-size: 1.02rem;
+    font-weight: 900;
+    color: var(--accent-blue);
+}
+
+.summary-count {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+}
+
+/* Audits list (index) */
+.audits-list-grid {
+    margin-top: 10px;
+}
+
+.audit-list-card {
+    background: linear-gradient(180deg, rgba(20, 20, 22, 0.86), rgba(12, 12, 14, 0.86));
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    transition: transform 220ms cubic-bezier(.2, .9, .3, 1), box-shadow 220ms cubic-bezier(.2, .9, .3, 1);
+}
+
+.audit-list-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 22px 48px rgba(2, 6, 23, 0.66);
+}
+
+.audit-list-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+}
+
+.audit-list-code {
+    color: var(--accent-blue);
+    font-weight: 900;
+}
+
+.audit-list-title {
+    color: var(--text-light);
+    font-size: 1rem;
+    margin-top: 4px;
+}
+
+.audit-list-meta {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.audit-list-badge {
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+    .audit-card-header {
+        padding: 12px 14px;
+    }
+
+    .audit-list-content {
+        padding: 12px 12px;
+    }
+
+    .items-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+    }
+}
