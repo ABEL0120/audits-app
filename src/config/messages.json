@@ -1,0 +1,7 @@
+{
+  "auth": {
+    "login_failed": "No se pudo iniciar sesión. Verifica tus credenciales e intenta de nuevo.",
+    "server_unavailable": "Servicio no disponible. Intenta más tarde.",
+    "default_error": "Ocurrió un error. Intenta de nuevo más tarde."
+  }
+}

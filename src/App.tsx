@@ -14,6 +14,8 @@ import { settingsOutline, readerOutline, home } from 'ionicons/icons';
 import Dashboard from './pages/Dashboard';
 import Audits from './pages/Audits';
 import Tab3 from './pages/Tab3';
+import Login from './pages/Login';
+import useAuthStore from './store/auth';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -47,48 +49,58 @@ import './theme/variables.css';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/Dashboard">
-            <Dashboard />
-          </Route>
-          <Route exact path="/Audits">
-            <Audits />
-          </Route>
-          {/* accept lowercase routes as well (links may use /audits/1) */}
-          <Route exact path="/audits">
-            <Audits />
-          </Route>
-          <Route path="/audits/:id">
-            <Audits />
-          </Route>
-          <Route path="/Settings">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/Dashboard" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="Dashboard" href="/Dashboard">
-            <IonIcon aria-hidden="true" icon={home} />
-            <IonLabel>Inicio</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="Audits" href="/Audits">
-            <IonIcon aria-hidden="true" icon={readerOutline} />
-            <IonLabel>Auditorías</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="Settings" href="/Settings">
-            <IonIcon aria-hidden="true" icon={settingsOutline} />
-            <IonLabel>Configuración</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const token = useAuthStore((s: { token: string | null }) => s.token);
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            {/* registration is disabled: users must be created by a supervisor */}
+
+            {/* Protected routes */}
+            <Route exact path="/Dashboard">
+              {token ? <Dashboard /> : <Redirect to="/login" />}
+            </Route>
+            <Route exact path="/Audits">
+              {token ? <Audits /> : <Redirect to="/login" />}
+            </Route>
+            {/* accept lowercase routes as well (links may use /audits/1) */}
+            <Route exact path="/audits">
+              {token ? <Audits /> : <Redirect to="/login" />}
+            </Route>
+            <Route path="/audits/:id">
+              {token ? <Audits /> : <Redirect to="/login" />}
+            </Route>
+            <Route path="/Settings">
+              {token ? <Tab3 /> : <Redirect to="/login" />}
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/Dashboard" />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="Dashboard" href="/Dashboard">
+              <IonIcon aria-hidden="true" icon={home} />
+              <IonLabel>Inicio</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="Audits" href="/Audits">
+              <IonIcon aria-hidden="true" icon={readerOutline} />
+              <IonLabel>Auditorías</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="Settings" href="/Settings">
+              <IonIcon aria-hidden="true" icon={settingsOutline} />
+              <IonLabel>Configuración</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

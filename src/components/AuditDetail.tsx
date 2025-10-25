@@ -117,38 +117,45 @@ const AuditDetail: React.FC<Props> = ({ auditId }) => {
       </IonGrid>
 
       <div className="items-container">
-        {items.map((it) => (
-          <IonCard key={it.id} className="item-card">
-            <IonCardContent className="item-card-content">
-              <div className="item-header">
-                <div>
-                  <div className="item-title">{it.tool_code} — {it.tool_name}</div>
-                  <div className="item-desc">{it.model} • {it.description}</div>
+        {items.length === 0 ? (
+          <div className="empty-state">
+            <h4>No hay elementos para inspeccionar</h4>
+            <p>Cuando existan items para revisar aparecerán aquí.</p>
+          </div>
+        ) : (
+          items.map((it) => (
+            <IonCard key={it.id} className="item-card">
+              <IonCardContent className="item-card-content">
+                <div className="item-header">
+                  <div>
+                    <div className="item-title">{it.tool_code} — {it.tool_name}</div>
+                    <div className="item-desc">{it.model} • {it.description}</div>
+                  </div>
+                  <div className="result-buttons">
+                    <IonButton size="small" color={it.result === 'PASS' ? 'success' : 'light'} fill={it.result === 'PASS' ? 'solid' : 'outline'} onClick={() => setItemResult(it.id, 'PASS')}>
+                      <IonIcon slot="start" icon={checkmarkOutline} /> PASS
+                    </IonButton>
+                    <IonButton size="small" color={it.result === 'FAIL' ? 'danger' : 'light'} fill={it.result === 'FAIL' ? 'solid' : 'outline'} onClick={() => setItemResult(it.id, 'FAIL')}>
+                      <IonIcon slot="start" icon={warningOutline} /> FAIL
+                    </IonButton>
+                    <IonButton size="small" color={it.result === 'NA' ? 'medium' : 'light'} fill={it.result === 'NA' ? 'solid' : 'outline'} onClick={() => setItemResult(it.id, 'NA')}>
+                      N/A
+                    </IonButton>
+                  </div>
                 </div>
-                <div className="result-buttons">
-                  <IonButton size="small" color={it.result === 'PASS' ? 'success' : 'light'} fill={it.result === 'PASS' ? 'solid' : 'outline'} onClick={() => setItemResult(it.id, 'PASS')}>
-                    <IonIcon slot="start" icon={checkmarkOutline} /> PASS
-                  </IonButton>
-                  <IonButton size="small" color={it.result === 'FAIL' ? 'danger' : 'light'} fill={it.result === 'FAIL' ? 'solid' : 'outline'} onClick={() => setItemResult(it.id, 'FAIL')}>
-                    <IonIcon slot="start" icon={warningOutline} /> FAIL
-                  </IonButton>
-                  <IonButton size="small" color={it.result === 'NA' ? 'medium' : 'light'} fill={it.result === 'NA' ? 'solid' : 'outline'} onClick={() => setItemResult(it.id, 'NA')}>
-                    N/A
-                  </IonButton>
-                </div>
-              </div>
 
-              <div className="item-actions">
-                <IonButton size="small" onClick={() => setShowPhotoModalFor(it.id)}>
-                  <IonIcon slot="start" icon={cameraOutline} /> Fotos ({it.photos.length})
-                </IonButton>
-                <IonButton fill="clear" size="small" onClick={() => setShowDefectModalFor(it.id)}>
-                  <IonIcon slot="start" icon={closeOutline} /> Defectos ({it.defects.length})
-                </IonButton>
-              </div>
-            </IonCardContent>
-          </IonCard>
-        ))}
+                <div className="item-actions">
+                  <IonButton size="small" onClick={() => setShowPhotoModalFor(it.id)}>
+                    <IonIcon slot="start" icon={cameraOutline} /> Fotos ({it.photos.length})
+                  </IonButton>
+                  <IonButton fill="clear" size="small" onClick={() => setShowDefectModalFor(it.id)}>
+                    <IonIcon slot="start" icon={closeOutline} /> Defectos ({it.defects.length})
+                  </IonButton>
+                </div>
+              </IonCardContent>
+            </IonCard>
+          ))
+        )}
       </div>
 
       <div className="footer-actions">

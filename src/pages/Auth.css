@@ -1,0 +1,136 @@
+/*
+  1. Fondo de la Página
+  Le damos un fondo a toda la página para que la tarjeta contraste
+*/
+.auth-page {
+  /* Usamos un gradiente radial sutil para el fondo de la página */
+  --background: radial-gradient(circle at top, #111827 0%, #070b12 100%);
+}
+
+/* 2. Centrado Correcto en IonContent
+  Esta es la clave para centrar. Apuntamos a la parte interna de IonContent
+*/
+.auth-page::part(scroll) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/*
+  3. La Tarjeta de Login (Mejorada)
+  Mejoramos el padding, el fondo y la sombra.
+*/
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  /* Fondo sólido, más claro que el fondo de la página */
+  background: #0f1720;
+  padding: 32px 28px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  /* Sombra más suave y difusa */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  color: var(--ion-color-light-shade);
+}
+
+/*
+  4. Cabecera de la Tarjeta
+  Ajustamos espaciado.
+*/
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px; /* Más espacio */
+}
+
+.auth-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  flex-shrink: 0; /* Evita que se encoja */
+}
+
+.auth-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.auth-sub {
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/*
+  5. Campos del Formulario (La mejora más grande)
+  Hacemos que los IonItem se vean como inputs reales.
+*/
+.auth-form {
+  margin-top: 24px;
+}
+
+.auth-field {
+  margin-bottom: 16px; /* Más espacio entre campos */
+}
+
+.auth-field IonItem {
+  --background: rgba(0, 0, 0, 0.25); /* Fondo inset oscuro */
+  --border-radius: 10px;
+  --padding-start: 12px;
+  --highlight-height: 0; /* Quita la línea de abajo por defecto */
+  border: 1px solid rgba(255, 255, 255, 0.07); /* Borde sutil */
+  transition: border-color 0.2s ease;
+}
+
+/* Resalta el borde cuando está enfocado */
+.auth-field IonItem.item-has-focus {
+  border-color: var(--ion-color-primary);
+}
+
+.auth-field IonLabel[position="stacked"] {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-left: 4px;
+  margin-bottom: 2px;
+}
+
+/*
+  6. Botones y Pie de Página
+*/
+.auth-actions {
+  margin-top: 24px;
+}
+
+.auth-actions IonButton {
+  --border-radius: 10px;
+  /* Agregamos una sombra al botón para que destaque */
+  --box-shadow: 0 4px 15px rgba(49, 112, 245, 0.2);
+  font-weight: 600;
+  height: 48px;
+  text-transform: none; /* Opcional: quita mayúsculas */
+}
+
+.auth-footer {
+  margin-top: 24px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.auth-cta {
+  color: #a78bfa;
+  font-weight: 600;
+  text-decoration: none;
+}

@@ -43,26 +43,33 @@ const Audits: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding audits-list">
-        <IonGrid className="audits-list-grid">
-          <IonRow>
-            {MOCK_AUDITS.map((a) => (
-              <IonCol size="12" sizeMd="6" key={a.id}>
-                <IonCard className="audit-list-card" routerLink={`/audits/${a.id}`}>
-                  <div className="audit-list-content">
-                    <div>
-                      <div className="audit-list-code">{a.code}</div>
-                      <div className="audit-list-title">{a.title}</div>
-                      <div className="audit-list-meta">{a.line} — Turno {a.shift}</div>
+        {MOCK_AUDITS.length === 0 ? (
+          <div className="empty-state">
+            <h3>No hay auditorías disponibles</h3>
+            <p>Crea una nueva auditoría o espera a que el administrador publique una.</p>
+          </div>
+        ) : (
+          <IonGrid className="audits-list-grid">
+            <IonRow>
+              {MOCK_AUDITS.map((a) => (
+                <IonCol size="12" sizeMd="6" key={a.id}>
+                  <IonCard className="audit-list-card" routerLink={`/audits/${a.id}`}>
+                    <div className="audit-list-content">
+                      <div>
+                        <div className="audit-list-code">{a.code}</div>
+                        <div className="audit-list-title">{a.title}</div>
+                        <div className="audit-list-meta">{a.line} — Turno {a.shift}</div>
+                      </div>
+                      <IonBadge className="audit-list-badge" color={a.status === 'draft' ? 'medium' : a.status === 'in_progress' ? 'warning' : 'success'}>
+                        {a.status}
+                      </IonBadge>
                     </div>
-                    <IonBadge className="audit-list-badge" color={a.status === 'draft' ? 'medium' : a.status === 'in_progress' ? 'warning' : 'success'}>
-                      {a.status}
-                    </IonBadge>
-                  </div>
-                </IonCard>
-              </IonCol>
-            ))}
-          </IonRow>
-        </IonGrid>
+                  </IonCard>
+                </IonCol>
+              ))}
+            </IonRow>
+          </IonGrid>
+        )}
       </IonContent>
     </IonPage>
   );

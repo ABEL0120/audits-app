@@ -19,8 +19,6 @@ import {
   add,
   checkmarkDoneCircleOutline,
   chevronForwardOutline,
-  documentTextOutline,
-  timeOutline,
 } from 'ionicons/icons';
 import './Dashboard.css';
 
@@ -38,21 +36,10 @@ interface CompletedAudit {
   date: string;
 }
 
-const userData = {
-  name: 'Juan Pérez',
-  avatarUrl: `https://ui-avatars.com/api/?name=Juan+Perez&background=1c1c1c&color=3880ff&bold=true`,
-};
-
-const pendingAudits: Audit[] = [
-  { id: 1, title: 'Revisión de Seguridad - Planta Norte', due: 'Vence Hoy', status: 'PENDIENTE', icon: documentTextOutline },
-  { id: 2, title: 'Auditoría de Calidad - Almacén Central', due: 'Vence en 2 días', status: 'EN PROCESO', icon: timeOutline },
-];
-
-const completedAudits: CompletedAudit[] = [
-  { id: 3, title: 'Inspección de Equipo - Tienda A', date: '2025-10-10' },
-  { id: 4, title: 'Revisión de Cumplimiento - Sede B', date: '2025-10-08' },
-  { id: 5, title: 'Auditoría Trimestral - Planta C', date: '2025-09-30' },
-];
+// Data removed per request: start empty and show placeholders
+const userData = { name: '', avatarUrl: '' };
+const pendingAudits: Audit[] = [];
+const completedAudits: CompletedAudit[] = [];
 
 const PendienteCard: React.FC<{ audit: Audit }> = ({ audit }) => (
   <IonCard className={`dark-card status-${audit.status.toLowerCase()}`}>
@@ -87,17 +74,28 @@ const Dashboard: React.FC = () => {
       <IonContent fullscreen className="dark-bg ion-padding">
         <div className="hero-dark">
           <div className="hero-info">
-            <p>Hola de nuevo,</p>
-            <h1>{userData.name}</h1>
+            <p>Hola</p>
+            <h1>{userData.name || 'Bienvenido'}</h1>
           </div>
-          <img src={userData.avatarUrl} alt="avatar" className="hero-avatar" />
+          {userData.avatarUrl ? (
+            <img src={userData.avatarUrl} alt="avatar" className="hero-avatar" />
+          ) : (
+            <div className="hero-avatar-placeholder" />
+          )}
         </div>
 
         <h2 className="section-title">Auditorías por Hacer</h2>
 
-        {pendingAudits.map((a) => (
-          <PendienteCard key={a.id} audit={a} />
-        ))}
+        {pendingAudits.length === 0 ? (
+          <div className="empty-state">
+            <h4>No hay auditorías pendientes</h4>
+            <p>Cuando se creen auditorías aparecerán aquí.</p>
+          </div>
+        ) : (
+          pendingAudits.map((a) => (
+            <PendienteCard key={a.id} audit={a} />
+          ))
+        )}
 
         <div className="completed-section">
           <details>
@@ -105,21 +103,25 @@ const Dashboard: React.FC = () => {
               <span>Ver finalizadas</span>
               <IonIcon icon={chevronForwardOutline} />
             </summary>
-            <IonList lines="none" className="completed-list">
-              {completedAudits.map((audit) => (
-                <IonItem key={audit.id} className="completed-item">
-                  <IonIcon
-                    icon={checkmarkDoneCircleOutline}
-                    slot="start"
-                    color="success"
-                  />
-                  <IonLabel>
-                    <h3>{audit.title}</h3>
-                    <p>{audit.date}</p>
-                  </IonLabel>
-                </IonItem>
-              ))}
-            </IonList>
+            {completedAudits.length === 0 ? (
+              <div className="empty-state small">No hay auditorías finalizadas</div>
+            ) : (
+              <IonList lines="none" className="completed-list">
+                {completedAudits.map((audit) => (
+                  <IonItem key={audit.id} className="completed-item">
+                    <IonIcon
+                      icon={checkmarkDoneCircleOutline}
+                      slot="start"
+                      color="success"
+                    />
+                    <IonLabel>
+                      <h3>{audit.title}</h3>
+                      <p>{audit.date}</p>
+                    </IonLabel>
+                  </IonItem>
+                ))}
+              </IonList>
+            )}
           </details>
         </div>
 
