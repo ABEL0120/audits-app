@@ -50,6 +50,16 @@ const Login: React.FC = () => {
     }
   }
 
+  function triggerTestNotification() {
+    try {
+      // dispatch the same event UpdateToast listens for
+      window.dispatchEvent(new CustomEvent('sw:needs-refresh'));
+      console.info('sw:needs-refresh event dispatched (test)');
+    } catch (err) {
+      console.debug('failed to dispatch test sw event', err);
+    }
+  }
+
   return (
     <IonPage>
       <IonContent fullscreen={true} className="ion-padding auth-page">
@@ -101,6 +111,9 @@ const Login: React.FC = () => {
                 ) : (
                   "Entrar"
                 )}
+              </IonButton>
+              <IonButton fill="clear" onClick={triggerTestNotification}>
+                Probar notificación
               </IonButton>
             </div>
             {error && (
