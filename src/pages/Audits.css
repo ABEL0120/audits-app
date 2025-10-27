@@ -26,6 +26,10 @@
   --border-radius-lg: 16px;
   --border-radius-md: 12px;
   --border-radius-sm: 8px;
+  /* Nuevas variables para consistencia y modularidad */
+  --padding-page: 24px;
+  --gap-md: 20px;
+  --gap-lg: 30px;
 }
 
 /* Fondo global y Tipografía */
@@ -38,12 +42,14 @@ ion-content {
   -moz-osx-font-smoothing: grayscale;
   font-family: "Inter", sans-serif; /* Fuente más moderna */
   position: relative; /* Para el fondo con patrón */
-  overflow: hidden;
+  overflow-x: hidden; /* Evita scroll horizontal por el patrón */
 }
 
 /* Patrón de fondo sutil */
 .dark-theme::before,
-.audit-detail-content::before {
+.audit-detail-content::before,
+.audits-list-view::before {
+  /* Aplicar también a la vista de lista */
   content: "";
   position: absolute;
   top: 0;
@@ -62,7 +68,7 @@ ion-content {
     );
   background-size: 200% 200%;
   animation: backgroundPan 40s linear infinite alternate;
-  opacity: 0.7;
+  opacity: 0.7; /* Mantener la sutileza */
   z-index: 0;
   pointer-events: none;
 }
@@ -85,6 +91,7 @@ ion-toolbar {
   ); /* Gradiente más pronunciado */
   border-bottom: 1px solid var(--card-border-subtle);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8); /* Sombra más fuerte */
+  z-index: 100; /* Asegurar que la barra superior esté por encima */
 }
 
 /* Título principal */
@@ -92,8 +99,17 @@ ion-title {
   font-weight: 800; /* Más audaz */
   color: var(--text-light);
   letter-spacing: 0.8px;
-  font-size: 1.25rem; /* Más grande */
+  font-size: 1.5rem; /* Más grande y legible */
   text-align: left;
+  padding-left: var(--padding-page); /* Alineado con el padding de la página */
+}
+
+/* Contenido de la página principal (para padding) */
+.ion-content.ion-padding {
+  --padding-top: var(--gap-md); /* Ajuste de padding para el contenido */
+  --padding-bottom: var(--gap-md);
+  --padding-start: var(--padding-page);
+  --padding-end: var(--padding-page);
 }
 
 /* CARD PRINCIPAL DE AUDITORÍA (AUDIT DETAIL HEADER) */
@@ -104,42 +120,43 @@ ion-title {
     var(--card-bg-dark) 100%
   ); /* Gradiente dinámico */
   border-radius: var(--border-radius-lg);
-  padding: 20px; /* Más padding */
+  padding: var(--gap-md); /* Más padding, usando variable */
   box-shadow: var(--shadow-deep);
   border: 1px solid var(--card-border-subtle);
   transition: var(--transition-ease);
   position: relative;
   z-index: 1; /* Asegura que esté por encima del fondo animado */
+  margin-bottom: var(--gap-lg); /* Más espacio inferior */
 }
 
 .audit-card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start; /* Alineación flexible */
-  gap: 20px;
-  padding: 0; /* Ya tenemos padding en .audit-header-card */
-  margin-bottom: 15px; /* Más espacio abajo */
+  gap: var(--gap-md);
+  padding: 0;
+  margin-bottom: var(--gap-md); /* Más espacio abajo */
 }
 
 .audit-header-info h2 {
-  font-size: 1.6rem; /* Título más grande */
+  font-size: 1.8rem; /* Título aún más grande y prominente */
   font-weight: 900;
   color: var(--text-light);
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0; /* Más espacio */
   line-height: 1.2;
 }
 
 .audit-header-info p {
-  font-size: 0.95rem;
+  font-size: 1rem; /* Más legible */
   color: var(--text-muted);
   margin: 0;
 }
 
 .audit-header-info .audit-code {
-  font-size: 1.1rem; /* Código más grande */
+  font-size: 1.2rem; /* Código más grande y prominente */
   font-weight: 900;
   color: var(--accent-blue);
-  margin-bottom: 6px;
+  margin-bottom: 8px; /* Más espacio */
   letter-spacing: 0.8px;
 }
 
@@ -148,16 +165,17 @@ ion-title {
   text-transform: uppercase;
   font-weight: 800;
   letter-spacing: 0.8px;
-  padding: 8px 14px; /* Más padding */
+  padding: 10px 18px; /* Más padding para un look más "button-like" */
   border-radius: var(--border-radius-md);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Sombra para que flote */
-  display: inline-flex; /* Asegura que el padding funcione bien */
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px; /* Más espacio entre icono y texto */
+  font-size: 0.8rem; /* Tamaño de fuente ligeramente más pequeño para el uppercase */
 }
 
 .status-badge ion-icon {
-  font-size: 0.9rem; /* Icono en badge */
+  font-size: 1rem; /* Icono en badge */
 }
 
 /* STATS CARDS */
@@ -168,7 +186,7 @@ ion-title {
     #1a2230 100%
   ); /* Gradiente sutil */
   border-radius: var(--border-radius-md);
-  padding: 18px 15px; /* Más padding */
+  padding: var(--gap-md) 15px; /* Más padding, usando variable */
   text-align: center;
   transition: var(--transition-ease);
   border: 1px solid var(--card-border-subtle);
@@ -176,21 +194,21 @@ ion-title {
 }
 
 .stats-card:hover {
-  transform: translateY(-4px) scale(1.02);
+  transform: translateY(-6px) scale(1.03); /* Movimiento y escala más pronunciados */
   box-shadow: var(--shadow-card-hover);
 }
 
 .stats-title {
   color: var(--text-muted);
-  font-size: 0.85rem; /* Más grande */
-  margin-bottom: 8px; /* Más espacio */
+  font-size: 0.9rem; /* Más grande */
+  margin-bottom: 10px; /* Más espacio */
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 
 .stats-value {
   font-weight: 900; /* Extra bold */
-  font-size: 1.5rem; /* Más grande */
+  font-size: 1.7rem; /* Más grande y prominente */
   color: var(--text-light);
 }
 
@@ -199,10 +217,10 @@ ion-title {
   display: grid;
   grid-template-columns: repeat(
     auto-fit,
-    minmax(280px, 1fr)
-  ); /* Columnas más anchas */
-  gap: 20px; /* Más espacio entre items */
-  margin-top: 30px; /* Más margen superior */
+    minmax(300px, 1fr)
+  ); /* Columnas más anchas para mejor visualización */
+  gap: var(--gap-lg); /* Más espacio entre items, usando variable */
+  margin-top: var(--gap-lg); /* Más margen superior */
   position: relative;
   z-index: 1;
 }
@@ -223,15 +241,15 @@ ion-title {
 }
 
 .item-card:hover {
-  transform: translateY(-8px) scale(1.02); /* Más pronunciado */
+  transform: translateY(-10px) scale(1.03); /* Movimiento y escala más pronunciados */
   box-shadow: var(--shadow-card-hover);
 }
 
 .item-card ion-card-content,
 .item-card .item-card-content {
-  background: transparent; /* El gradiente ya está en el .item-card */
-  padding: 20px; /* Más padding */
-  flex-grow: 1; /* Para que ocupe todo el espacio */
+  background: transparent;
+  padding: var(--gap-md); /* Más padding, usando variable */
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -240,42 +258,46 @@ ion-title {
 .item-title {
   color: var(--text-light);
   font-weight: 800;
-  font-size: 1.05rem; /* Título más grande */
-  margin-bottom: 8px;
+  font-size: 1.15rem; /* Título más grande y legible */
+  margin-bottom: 10px; /* Más espacio */
   line-height: 1.3;
 }
 
 .item-desc {
   color: var(--text-muted);
-  font-size: 0.92rem; /* Descripción más grande */
-  margin-bottom: 15px; /* Más espacio */
-  flex-grow: 1; /* Permite que la descripción empuje los botones hacia abajo */
+  font-size: 0.95rem; /* Descripción más grande y legible */
+  margin-bottom: var(--gap-md); /* Más espacio */
+  flex-grow: 1;
 }
 
 /* Botones de resultados */
 .result-buttons {
   display: flex;
-  gap: 10px; /* Más espacio */
+  gap: 12px; /* Más espacio */
   align-items: center;
-  margin-top: auto; /* Asegura que los botones estén abajo */
+  margin-top: auto;
+  flex-wrap: wrap; /* Permitir que los botones se envuelvan */
+  justify-content: flex-start; /* Alinearlos a la izquierda en general */
 }
 
 .result-buttons ion-button,
 .result-buttons button {
-  --padding-start: 14px; /* Más padding */
-  --padding-end: 14px;
+  --padding-start: 18px; /* Más padding */
+  --padding-end: 18px;
   border-radius: var(--border-radius-sm);
   font-weight: 700;
   letter-spacing: 0.5px;
-  height: 40px; /* Altura fija para botones */
-  min-width: 80px; /* Ancho mínimo para consistencia */
+  height: 44px; /* Altura fija para botones */
+  min-width: 90px; /* Ancho mínimo para consistencia */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: var(--transition-ease);
+  flex-grow: 1; /* Permitir que los botones crezcan para llenar el espacio */
+  max-width: 150px; /* Limitar el ancho máximo para evitar que sean demasiado grandes */
 }
 
 .result-buttons ion-button:hover,
 .result-buttons button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px); /* Efecto de elevación */
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
 }
 
@@ -297,12 +319,15 @@ ion-title {
 /* BADGES genéricos (para lista de auditorías) */
 ion-badge {
   text-transform: uppercase;
-  font-size: 0.75rem; /* Más grande */
+  font-size: 0.8rem; /* Más grande y legible */
   letter-spacing: 0.7px;
   border-radius: var(--border-radius-sm);
-  padding: 7px 14px; /* Más padding */
+  padding: 8px 16px; /* Más padding */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* MODALS */
@@ -313,7 +338,11 @@ ion-modal {
     rgba(12, 14, 18, 0.98)
   ); /* Fondo más oscuro y opaco */
   --border-radius: var(--border-radius-lg);
-  padding: 10px; /* Más padding alrededor */
+  padding: 15px; /* Más padding alrededor */
+  --width: 90%; /* Ajuste de ancho del modal */
+  --max-width: 800px;
+  --height: auto;
+  --max-height: 90%;
 }
 
 ion-modal::part(content) {
@@ -323,25 +352,25 @@ ion-modal::part(content) {
 /* Footer Actions (sticky buttons) */
 .footer-actions {
   position: sticky;
-  bottom: 0; /* Pegado abajo */
+  bottom: 0;
   left: 0;
   right: 0;
-  z-index: 10; /* Asegura que esté por encima de todo */
+  z-index: 10;
   display: flex;
-  gap: 16px; /* Más espacio entre botones */
+  gap: var(--gap-md); /* Más espacio entre botones, usando variable */
   background: linear-gradient(
     180deg,
     rgba(12, 12, 12, 0.8),
     rgba(8, 8, 8, 0.95)
   ); /* Fondo semi-transparente que se oscurece */
-  backdrop-filter: blur(8px); /* Efecto de desenfoque */
-  -webkit-backdrop-filter: blur(8px);
-  padding: 18px 20px; /* Más padding */
-  border-top: 1px solid var(--card-border-subtle); /* Borde superior sutil */
-  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.7); /* Sombra hacia arriba */
+  backdrop-filter: blur(10px); /* Efecto de desenfoque más fuerte */
+  -webkit-backdrop-filter: blur(10px);
+  padding: var(--gap-md) var(--padding-page); /* Más padding, usando variables */
+  border-top: 1px solid var(--card-border-subtle);
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.7);
   justify-content: center;
-  margin-top: 30px; /* Más margen arriba para separar del contenido */
-  border-radius: 0; /* Quitamos el radio para que ocupe todo el ancho */
+  margin-top: var(--gap-lg);
+  border-radius: 0;
 }
 
 /* Botones generales */
@@ -351,11 +380,11 @@ ion-button {
   --background-activated: var(--accent-blue-dark);
   --background-hover: var(--accent-blue-dark);
   --color: white;
-  font-weight: 700; /* Menos bold que antes, para dar jerarquía a result-buttons */
-  font-size: 0.95rem;
+  font-weight: 700;
+  font-size: 1rem; /* Tamaño de fuente ligeramente más grande */
   text-transform: none;
-  height: 48px; /* Altura consistente */
-  padding: 0 20px; /* Más padding lateral */
+  height: 50px; /* Altura consistente y generosa */
+  padding: 0 25px; /* Más padding lateral */
   box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
   transition: var(--transition-ease);
 }
@@ -375,7 +404,7 @@ ion-button[color="medium"] {
 }
 
 ion-button:hover {
-  transform: translateY(-3px); /* Movimiento más pronunciado */
+  transform: translateY(-4px); /* Movimiento más pronunciado */
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6); /* Sombra más fuerte */
 }
 ion-button[color="danger"]:hover {
@@ -392,78 +421,82 @@ ion-button:active {
 
 /* Modal internals */
 .modal-container {
-  padding: 25px; /* Más padding */
+  padding: var(--gap-lg); /* Más padding */
   color: var(--text-light);
-  max-width: 800px; /* Más ancho para contenido */
+  max-width: 800px;
   margin: 0 auto;
   background: linear-gradient(
     145deg,
     var(--card-bg-light) 0%,
     var(--card-bg-dark) 100%
-  ); /* Fondo para el contenido del modal */
+  );
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-deep);
   border: 1px solid var(--card-border-subtle);
+  position: relative; /* Para asegurar el z-index */
+  z-index: 1;
 }
 
 .modal-container h3 {
   margin-top: 0;
-  font-size: 1.4rem; /* Título de modal más grande */
+  font-size: 1.6rem; /* Título de modal más grande y legible */
   letter-spacing: 0.6px;
   font-weight: 700;
   color: var(--text-light);
-  margin-bottom: 20px;
+  margin-bottom: var(--gap-md);
 }
 
 .modal-container p {
   color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin-bottom: 15px;
+  font-size: 1rem; /* Más legible */
+  line-height: 1.6;
+  margin-bottom: var(--gap-md);
 }
 
 .modal-actions {
   display: flex;
-  gap: 12px; /* Más espacio */
+  gap: var(--gap-md); /* Más espacio */
   justify-content: flex-end;
-  margin-top: 25px; /* Más margen */
+  margin-top: var(--gap-lg); /* Más margen */
 }
 
 .file-input {
   width: 100%;
-  padding: 12px 10px; /* Más padding */
-  background: rgba(255, 255, 255, 0.05); /* Fondo más claro */
+  padding: 14px 12px; /* Más padding */
+  background: rgba(255, 255, 255, 0.05);
   border-radius: var(--border-radius-sm);
   color: var(--text-light);
   border: 1px solid var(--card-border-subtle);
-  font-size: 0.95rem;
+  font-size: 1rem; /* Más legible */
   transition: all 0.2s ease;
 }
 .file-input:focus {
   border-color: var(--accent-blue);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Sombra más pronunciada */
   outline: none;
 }
 
 ion-item {
   --background: transparent;
-  --inner-padding-end: 0; /* Ajuste para el padding interno */
+  --inner-padding-end: 0;
   --padding-start: 0;
   color: var(--text-light);
+  margin-bottom: 15px; /* Más espacio entre items de formulario */
 }
 
 ion-label {
   color: var(--text-light);
   font-weight: 600;
-  font-size: 0.95rem;
-  margin-bottom: 8px; /* Espacio debajo del label */
+  font-size: 1rem; /* Más legible */
+  margin-bottom: 10px; /* Espacio debajo del label */
+  display: block; /* Asegura que el margen funcione */
 }
 
 /* Audits list (index) */
 .audits-list-grid {
-  margin-top: 20px; /* Más margen superior */
+  margin-top: var(--gap-lg); /* Más margen superior, usando variable */
   position: relative;
-  z-index: 1; /* Para estar sobre el fondo animado */
+  z-index: 1;
 }
 
 .audit-list-card {
@@ -476,10 +509,11 @@ ion-label {
   border: 1px solid var(--card-border-subtle);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
   transition: var(--transition-ease);
+  cursor: pointer; /* Indicar que es clickeable */
 }
 
 .audit-list-card:hover {
-  transform: translateY(-10px) scale(1.02); /* Movimiento más dramático */
+  transform: translateY(-12px) scale(1.03); /* Movimiento y escala más dramáticos */
   box-shadow: var(--shadow-card-hover);
 }
 
@@ -487,28 +521,30 @@ ion-label {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px; /* Más espacio */
-  padding: 18px 20px; /* Más padding */
+  gap: var(--gap-md); /* Más espacio */
+  padding: var(--gap-md); /* Más padding */
 }
 
 .audit-list-code {
   color: var(--accent-blue);
   font-weight: 900;
-  font-size: 1.05rem; /* Más grande */
+  font-size: 1.15rem; /* Más grande y prominente */
   letter-spacing: 0.7px;
+  margin-bottom: 5px;
 }
 
 .audit-list-title {
   color: var(--text-light);
-  font-size: 1.15rem; /* Más grande y legible */
+  font-size: 1.25rem; /* Más grande y legible */
   font-weight: 700;
-  margin-top: 6px;
-  margin-bottom: 4px;
+  margin-top: 0;
+  margin-bottom: 6px;
+  line-height: 1.3;
 }
 
 .audit-list-meta {
   color: var(--text-muted);
-  font-size: 0.88rem; /* Más grande */
+  font-size: 0.92rem; /* Más grande y legible */
   line-height: 1.4;
 }
 
@@ -516,81 +552,171 @@ ion-label {
   text-transform: uppercase;
   font-weight: 800;
   letter-spacing: 0.7px;
+  min-width: 120px; /* Asegurar que el badge tenga un ancho mínimo */
+  text-align: center;
+  flex-shrink: 0; /* Evitar que el badge se encoja */
+}
+
+/* Empty State / Loading State Styling */
+.empty-state {
+  text-align: center;
+  padding: var(--gap-lg);
+  color: var(--text-muted);
+  background-color: var(--card-bg-dark);
+  border-radius: var(--border-radius-md);
+  margin-top: var(--gap-lg);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--card-border-subtle);
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 /* Responsive tweaks */
 @media (max-width: 768px) {
+  :root {
+    --padding-page: 18px; /* Reducir padding en móviles */
+    --gap-md: 16px;
+    --gap-lg: 24px;
+  }
+
+  ion-title {
+    font-size: 1.3rem;
+    padding-left: var(--padding-page);
+  }
+
   .audit-header-card {
-    padding: 18px;
+    padding: var(--gap-md);
+    margin-bottom: var(--gap-md);
   }
   .audit-card-header {
-    flex-direction: column; /* Apila elementos en pantallas pequeñas */
+    flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
   }
   .audit-header-info h2 {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
   .audit-header-info .audit-code {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
   }
   .status-badge {
-    font-size: 0.68rem;
-    padding: 6px 10px;
+    font-size: 0.75rem;
+    padding: 8px 14px;
+    gap: 6px;
   }
+  .status-badge ion-icon {
+    font-size: 0.9rem;
+  }
+
   .stats-card {
-    padding: 15px 10px;
+    padding: var(--gap-md) 12px;
+  }
+  .stats-title {
+    font-size: 0.8rem;
   }
   .stats-value {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
+
   .items-container {
     grid-template-columns: 1fr; /* Una sola columna */
-    gap: 15px;
+    gap: var(--gap-md);
   }
   .item-card ion-card-content,
   .item-card .item-card-content {
-    padding: 15px;
+    padding: var(--gap-md);
   }
   .item-title {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
   .item-desc {
-    font-size: 0.88rem;
+    font-size: 0.9rem;
   }
   .result-buttons {
-    flex-wrap: wrap; /* Envuelve los botones si no caben */
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 8px; /* Reducir el gap en móviles */
   }
   .result-buttons ion-button,
   .result-buttons button {
-    width: calc(50% - 5px); /* Dos botones por fila */
+    width: calc(50% - 4px); /* Dos botones por fila */
     min-width: unset;
-    font-size: 0.85rem;
-    height: 38px;
+    font-size: 0.88rem;
+    height: 40px;
+    padding: 0 12px;
+    max-width: unset; /* Permitir que crezcan más en 2 columnas */
   }
+  ion-badge {
+    font-size: 0.7rem;
+    padding: 6px 12px;
+    gap: 4px;
+  }
+  ion-badge ion-icon {
+    font-size: 0.85rem;
+  }
+
   .modal-container {
-    padding: 20px;
+    padding: var(--gap-md);
   }
   .modal-container h3 {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
   }
+
   .footer-actions {
-    padding: 15px 15px;
+    padding: var(--gap-md) var(--padding-page);
     gap: 10px;
+    flex-wrap: wrap; /* Permitir que los botones del footer se envuelvan */
   }
   ion-button {
-    font-size: 0.9rem;
-    height: 44px;
-    padding: 0 15px;
+    font-size: 0.95rem;
+    height: 46px;
+    padding: 0 18px;
+    flex-grow: 1; /* Para que los botones se distribuyan mejor */
   }
   .audits-list-content {
     flex-direction: column;
     align-items: flex-start;
-    padding: 15px;
-    gap: 8px;
+    padding: var(--gap-md);
+    gap: 10px;
+  }
+  .audit-list-code {
+    font-size: 1rem;
+  }
+  .audit-list-title {
+    font-size: 1.1rem;
+  }
+  .audit-list-meta {
+    font-size: 0.85rem;
   }
   .audit-list-badge {
     align-self: flex-end; /* Mueve el badge a la derecha */
+    font-size: 0.75rem;
+    padding: 7px 14px;
+  }
+  .empty-state h3 {
+    font-size: 1.3rem;
+  }
+  .empty-state p {
+    font-size: 0.9rem;
   }
 }
+
+/* @media (max-width: 480px) {
+  .result-buttons ion-button,
+  .result-buttons button {
+    width: 100%; 
+  }
+  ion-button {
+    width: 100%;
+  }
+} */

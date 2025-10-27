@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   IonCard,
   IonCardHeader,
@@ -17,17 +17,30 @@ import {
   IonIcon,
 } from '@ionic/react';
 import { checkmarkOutline, closeOutline, cameraOutline, warningOutline } from 'ionicons/icons';
-import { AuditMeta, Item, MOCK_AUDITS, MOCK_ITEMS } from '../data/mockData';
+import { getAudit, AuditItem as ApiAudit, AuditItemDetail } from '../api/audits';
 import './AuditDetail.css';
 
 interface Props {
   auditId: number;
 }
 
-const AuditDetail: React.FC<Props> = ({ auditId }) => {
-  const auditMeta = MOCK_AUDITS.find((a) => a.id === auditId) as AuditMeta | undefined;
+type LocalItem = {
+  id: number;
+  tool_code?: string;
+  tool_name?: string;
+  model?: string;
+  description?: string;
+  result?: string | null;
+  comments?: string | null;
+  defects: any[];
+  photos: { id: string }[];
+};
 
-  const [items, setItems] = useState<Item[]>(MOCK_ITEMS);
+const AuditDetail: React.FC<Props> = ({ auditId }) => {
+  const [audit, setAudit] = useState<ApiAudit | null>(null);
+  const [items, setItems] = useState<LocalItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const [showPhotoModalFor, setShowPhotoModalFor] = useState<number | null>(null);
   const [showDefectModalFor, setShowDefectModalFor] = useState<number | null>(null);
   const [showSummary, setShowSummary] = useState(false);
@@ -41,12 +54,47 @@ const AuditDetail: React.FC<Props> = ({ auditId }) => {
     return { total, completed, photos, defects };
   }, [items]);
 
-  function setItemResult(itemId: number, result: Item['result']) {
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const a = await getAudit(auditId);
+        if (!mounted) return;
+        setAudit(a);
+        const mapped: LocalItem[] = (a.items || []).map((it: AuditItemDetail) => ({
+          id: it.id,
+          tool_code: it.tool?.code,
+          tool_name: it.tool?.name,
+          model: it.tool?.model,
+          description: it.tool?.description,
+          result: it.result ?? null,
+          comments: it.comments ?? null,
+          defects: Array.isArray(it.defects) ? it.defects : [],
+          photos: [],
+        }));
+        setItems(mapped);
+      } catch (e) {
+        console.error(e);
+        if (!mounted) return;
+        setError('No se pudo cargar la auditoría');
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, [auditId]);
+
+  function setItemResult(itemId: number, result: LocalItem['result']) {
     setItems((prev) => prev.map((it) => (it.id === itemId ? { ...it, result } : it)));
     if (result === 'FAIL') setTimeout(() => setShowDefectModalFor(itemId), 200);
   }
 
-  function addDefect(itemId: number, defect: Item['defects'][number]) {
+  function addDefect(itemId: number, defect: any) {
     setItems((prev) => prev.map((it) => (it.id === itemId ? { ...it, defects: [...it.defects, defect] } : it)));
     setShowDefectModalFor(null);
   }
@@ -61,7 +109,9 @@ const AuditDetail: React.FC<Props> = ({ auditId }) => {
     setShowSummary(false);
   }
 
-  if (!auditMeta) return <div>Auditoría no encontrada</div>;
+  if (loading) return <div className="empty-state"><h3>Cargando auditoría...</h3></div>;
+  if (error) return <div className="empty-state"><h3>{error}</h3></div>;
+  if (!audit) return <div className="empty-state"><h3>Auditoría no encontrada</h3></div>;
 
   return (
     <div>
@@ -69,18 +119,18 @@ const AuditDetail: React.FC<Props> = ({ auditId }) => {
         <IonCardHeader className="audit-card-header">
           <div className="audit-header-info">
             <div>
-              <div className="audit-code">{auditMeta.code}</div>
-              <div className="audit-meta">{auditMeta.line} — Turno {auditMeta.shift}</div>
-              <div className="audit-meta">Empleado: {auditMeta.employee_number}</div>
-              <div className="audit-meta">Supervisor: {auditMeta.supervisor_name}</div>
+              <div className="audit-code">{audit.audit_code}</div>
+              <div className="audit-meta">{audit.line?.name || audit.line?.code} — Turno {audit.shift}</div>
+              <div className="audit-meta">Empleado: {audit.employee_number}</div>
+              <div className="audit-meta">Supervisor: {audit.supervisor?.name}</div>
             </div>
-            <IonBadge className="status-badge" color={auditMeta.status === 'draft' ? 'medium' : auditMeta.status === 'in_progress' ? 'warning' : 'success'}>
-              {auditMeta.status}
+            <IonBadge className="status-badge" color={audit.status === 'draft' ? 'medium' : audit.status === 'in_progress' ? 'warning' : audit.status === 'submitted' ? 'primary' : 'success'}>
+              {audit.status}
             </IonBadge>
           </div>
 
           <div className="audit-header-actions">
-            {auditMeta.status === 'draft' && (
+            {audit.status === 'draft' && (
               <IonButton color="primary" onClick={() => alert('Iniciar auditoría')}>
                 Iniciar
               </IonButton>
@@ -92,6 +142,21 @@ const AuditDetail: React.FC<Props> = ({ auditId }) => {
           </div>
         </IonCardHeader>
       </IonCard>
+
+      <div className="audit-summary">
+        <div className="audit-summary-row">
+          <strong>Resumen:</strong> {audit.summary || '—'}
+        </div>
+        <div className="audit-summary-row">
+          <strong>Resultado general:</strong> {audit.overall_result || '—'}
+        </div>
+        <div className="audit-summary-row">
+          <strong>Inició:</strong> {audit.started_at || '—'} &nbsp; <strong>Terminó:</strong> {audit.ended_at || '—'}
+        </div>
+        {audit.assignment?.notes && (
+          <div className="audit-summary-row"><strong>Notas de asignación:</strong> {audit.assignment.notes}</div>
+        )}
+      </div>
 
       <IonGrid className="stats-container">
         <IonRow>

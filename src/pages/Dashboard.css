@@ -201,18 +201,28 @@
 }
 
 .dark-card-footer ion-button {
+  /* Make the action button a subtle pill with good contrast */
   --padding-start: 10px;
   --padding-end: 10px;
-  --color: #3880ff; /* Primary color for button text */
-  font-weight: 600;
-  font-size: 0.9rem;
-  --border-radius: 12px;
-  transition: all 0.2s ease-in-out;
+  --color: #ffffff; /* white text */
+  --background: transparent;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 112, 255, 0.18),
+    rgba(0, 86, 214, 0.14)
+  );
+  border: 1px solid rgba(56, 128, 255, 0.12);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .dark-card-footer ion-button:hover {
-  --color: #5da0ff; /* Lighter blue on hover */
-  transform: translateX(3px); /* Slight movement on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.55);
 }
 
 .completed-section {

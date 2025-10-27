@@ -37,11 +37,17 @@ const Login: React.FC = () => {
         data.access_token ||
         (data.data && data.data.token) ||
         null;
-      const user = data.user || data.data?.user || { email };
+      const rawUser = data.user || data.data?.user || { email };
+      const user = {
+        id: rawUser.id ?? rawUser.user_id ?? 0,
+        name: rawUser.name ?? rawUser.full_name ?? rawUser.email ?? email,
+        email: rawUser.email ?? email,
+        role: rawUser.role ?? rawUser.type ?? undefined,
+      };
       if (!token) throw new Error("Token no recibido desde el servidor");
       // set axios default header for following requests
-      setAuthToken(token);
-      login(token, user);
+  setAuthToken(token);
+  login(token, user);
       history.replace("/Dashboard");
     } catch (err: unknown) {
       // log raw error for later diagnosis

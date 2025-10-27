@@ -24,12 +24,15 @@ import {
   // clipboardOutline, // Another example icon - keep if you want to use it
 } from "ionicons/icons";
 import "./Dashboard.css";
+import useAuthStore from "../store/auth";
+import { listAudits, AuditItem } from "../api/audits";
+import { useEffect, useState } from "react";
 
 interface Audit {
   id: number;
   title: string;
   due: string;
-  status: "PENDIENTE" | "EN PROCESO";
+  status: string;
   icon: string; // Dynamic icon for each audit
 }
 
@@ -39,10 +42,18 @@ interface CompletedAudit {
   date: string;
 }
 
-// Data is now empty, ready for API consumption
-const userData = { name: "", avatarUrl: "" };
-const pendingAudits: Audit[] = [];
 const completedAudits: CompletedAudit[] = [];
+
+// Helper to map API audit item to our simple Audit interface
+function mapApiToAudit(a: AuditItem): Audit {
+  return {
+    id: a.id,
+    title: a.summary || a.audit_code,
+    due: a.started_at || "",
+    status: a.status || "PENDIENTE",
+    icon: "documentTextOutline",
+  } as Audit;
+}
 
 const PendienteCard: React.FC<{ audit: Audit }> = ({ audit }) => (
   <IonCard className={`dark-card`}>
@@ -66,6 +77,49 @@ const PendienteCard: React.FC<{ audit: Audit }> = ({ audit }) => (
 );
 
 const Dashboard: React.FC = () => {
+  const userData = useAuthStore((s) => s.user);
+  const [pendingAudits, setPendingAudits] = useState<Audit[]>([]);
+
+  function getInitials(name?: string | null) {
+    if (!name) return "";
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return "";
+    const first = parts[0].charAt(0);
+    const second = parts.length > 1 ? parts[1].charAt(0) : "";
+    return (first + second).toUpperCase();
+  }
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadPending() {
+      if (!userData || !userData.id) return;
+
+      try {
+        const res = await listAudits(1);
+        if (!mounted) return;
+        const items = res.data
+          .filter((a) => a.technician?.id === userData.id)
+          .filter((a) => {
+            // consider pending if assignment is 'assigned' or audit not submitted/completed
+            const asg = a.assignment?.status;
+            const s = a.status?.toLowerCase();
+            return (
+              asg === "assigned" ||
+              (s && s !== "submitted" && s !== "completed")
+            );
+          })
+          .map(mapApiToAudit);
+        setPendingAudits(items);
+      } catch (e) {
+        // ignore errors for now; keep pendingAudits empty
+        console.debug("failed to load pending audits", e);
+      }
+    }
+    loadPending();
+    return () => {
+      mounted = false;
+    };
+  }, [userData]);
   return (
     <IonPage>
       <IonHeader translucent={true}>
@@ -78,14 +132,12 @@ const Dashboard: React.FC = () => {
         <div className="hero-dark">
           <div className="hero-info">
             <p>Hola</p>
-            <h1>{userData.name || "Bienvenido"}</h1>
+            <h1>{userData?.name ?? "Bienvenido"}</h1>
           </div>
-          {userData.avatarUrl ? (
-            <img
-              src={userData.avatarUrl}
-              alt="avatar"
-              className="hero-avatar"
-            />
+          {userData && userData.name ? (
+            <div className="hero-avatar-initials" aria-hidden>
+              {getInitials(userData.name)}
+            </div>
           ) : (
             <div className="hero-avatar-placeholder" />
           )}

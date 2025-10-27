@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   IonContent,
@@ -11,24 +11,30 @@ import {
   IonCol,
   IonCard,
   IonBadge,
-  IonIcon, // Añadido para iconos en badges
+  IonIcon,
 } from "@ionic/react";
 import {
-  checkmarkCircleOutline, // Icono para estado 'completed'
-  timerOutline, // Icono para estado 'in_progress'
-  documentTextOutline, // Icono para estado 'draft'
-  alertCircleOutline, // Icono para error o pendiente
-} from "ionicons/icons"; // Importar iconos de Ionicons
+  checkmarkCircleOutline,
+  timerOutline,
+  documentTextOutline,
+  alertCircleOutline,
+} from "ionicons/icons";
 
 import "./Audits.css";
-import { MOCK_AUDITS } from "../data/mockData"; // Mantener mock data para la lista de ejemplo
 import AuditDetail from "../components/AuditDetail";
+import { listAudits, AuditsListResponse, AuditItem } from "../api/audits";
+
+type ApiState = {
+  loading: boolean;
+  error: string | null;
+  audits: AuditItem[];
+  page: number;
+};
 
 const Audits: React.FC = () => {
   const params = useParams<{ id?: string }>();
   const id = params.id ? Number(params.id) : undefined;
 
-  // Función para obtener el color e icono del badge según el estado
   const getStatusProps = (status: string) => {
     switch (status) {
       case "completed":
@@ -42,19 +48,69 @@ const Audits: React.FC = () => {
     }
   };
 
+  // Traduce etiquetas de estado a español (casos comunes)
+  const statusLabel = (status?: string) => {
+    if (!status) return "Desconocido";
+    const s = status.toLowerCase();
+    switch (s) {
+      case "submitted":
+        return "Enviado";
+      case "in_progress":
+      case "inprogress":
+        return "En progreso";
+      case "completed":
+        return "Completado";
+      case "draft":
+        return "Borrador";
+      case "pending":
+        return "Pendiente";
+      default:
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+  };
+
+  const [state, setState] = useState<ApiState>({
+    loading: false,
+    error: null,
+    audits: [],
+    page: 1,
+  });
+
+  useEffect(() => {
+    if (id) return;
+    let mounted = true;
+    async function load() {
+      setState((s) => ({ ...s, loading: true, error: null }));
+      try {
+        const data: AuditsListResponse = await listAudits(state.page);
+        if (!mounted) return;
+        setState((s) => ({ ...s, audits: data.data, loading: false }));
+      } catch {
+        if (!mounted) return;
+        setState((s) => ({
+          ...s,
+          error: "No se pudieron cargar las auditorías",
+          loading: false,
+        }));
+      }
+    }
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, [id, state.page]);
   if (id) {
     // Renderiza la vista de detalle de auditoría si hay un ID
     return (
       <IonPage className="dark-theme">
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Detalle de Auditoría</IonTitle>{" "}
-            {/* Título más específico */}
+            <IonTitle>Detalle de Auditoría</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent fullscreen className="ion-padding audit-detail-content">
+        <IonContent fullscreen className="audit-detail-content">
           {" "}
-          {/* Nueva clase para el contenido */}
+          {/* Eliminado ion-padding aquí para controlarlo desde CSS */}
           <AuditDetail auditId={id} />
         </IonContent>
       </IonPage>
@@ -66,47 +122,48 @@ const Audits: React.FC = () => {
     <IonPage className="dark-theme">
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Mis Auditorías</IonTitle> {/* Título más amigable */}
+          <IonTitle>Mis Auditorías</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding audits-list-view">
+      <IonContent fullscreen className="ion-padding audits-list-view">
         {" "}
-        {/* Nueva clase para la vista de lista */}
-        {MOCK_AUDITS.length === 0 ? (
+        {/* Añadido ion-padding y audits-list-view */}
+        {state.loading ? (
+          <div className="empty-state">
+            <h3>Cargando auditorías...</h3>
+          </div>
+        ) : state.error ? (
+          <div className="empty-state">
+            <h3>{state.error}</h3>
+            <p>Intenta recargar la aplicación o verifica tu conexión.</p>
+          </div>
+        ) : state.audits.length === 0 ? (
           <div className="empty-state">
             <h3>No hay auditorías disponibles</h3>
-            <p>
-              Crea una nueva auditoría o espera a que el administrador publique
-              una.
-            </p>
+            <p>Cuando se creen auditorías aparecerán aquí.</p>
           </div>
         ) : (
           <IonGrid className="audits-list-grid">
             <IonRow>
-              {MOCK_AUDITS.map((a) => {
-                const { color, icon } = getStatusProps(a.status);
+              {state.audits.map((a) => {
+                const { color, icon } = getStatusProps(a.status || "");
                 return (
                   <IonCol size="12" sizeMd="6" sizeLg="4" key={a.id}>
-                    {" "}
-                    {/* Añadido sizeLg para pantallas grandes */}
                     <IonCard
                       className="audit-list-card"
                       routerLink={`/audits/${a.id}`}
                     >
                       <div className="audit-list-content">
                         <div>
-                          <div className="audit-list-code">{a.code}</div>
-                          <div className="audit-list-title">{a.title}</div>
+                          <div className="audit-list-code">{a.audit_code}</div>
+                          <div className="audit-list-title">{a.summary}</div>
                           <div className="audit-list-meta">
-                            Línea: {a.line} — Turno: {a.shift}
-                          </div>{" "}
-                          {/* Texto más descriptivo */}
+                            Línea: {a.line?.name || a.line?.code} — Técnico:{" "}
+                            {a.technician?.name}
+                          </div>
                         </div>
                         <IonBadge className="audit-list-badge" color={color}>
-                          <IonIcon icon={icon} slot="start" />{" "}
-                          {/* Icono en el badge */}
-                          {a.status.replace("_", " ")}{" "}
-                          {/* Formatear status: "in_progress" -> "in progress" */}
+                          <IonIcon icon={icon} slot="start" /> {statusLabel(a.status)}
                         </IonBadge>
                       </div>
                     </IonCard>
@@ -118,7 +175,7 @@ const Audits: React.FC = () => {
         )}
       </IonContent>
     </IonPage>
-  );
-};
+    );
+  };
 
-export default Audits;
+  export default Audits;

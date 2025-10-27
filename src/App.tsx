@@ -13,7 +13,7 @@ import { IonReactRouter } from "@ionic/react-router";
 import { settingsOutline, readerOutline, home } from "ionicons/icons";
 import Dashboard from "./pages/Dashboard";
 import Audits from "./pages/Audits";
-import Tab3 from "./pages/Tab3";
+import Tab3 from "./pages/Settings";
 import Login from "./pages/Login";
 import useAuthStore from "./store/auth";
 import UpdateToast from "./components/UpdateToast";
@@ -70,8 +70,8 @@ const App: React.FC = () => {
               {token ? <Dashboard /> : <Redirect to="/login" />}
             </Route>
             <Route exact path="/Audits">
-              <Audits />
-              {/* {token ? <Audits /> : <Redirect to="/login" />} */}
+              {/* <Audits /> */}
+              {token ? <Audits /> : <Redirect to="/login" />}
             </Route>
             {/* accept lowercase routes as well (links may use /audits/1) */}
             <Route exact path="/audits">

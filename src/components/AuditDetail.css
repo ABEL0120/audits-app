@@ -1,151 +1,247 @@
+--- START OF FILE AuditDetail.css ---
+
+/* Importar variables globales del archivo principal */
+/* Esto asume que Audits.css o un archivo de variables compartido se carga primero */
+/* Si no, copia las variables :root de Audits.css aquí también para que estén disponibles */
+
+/* Contenedor principal para AuditDetail */
 .audit-detail-root {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  color: #3b2f2f; /* Un marrón oscuro para el texto principal */
-  font-family: "Papyrus", "Brush Script MT", cursive; /* Fuente con toque orgánico */
-  background-image: url("https://example.com/papyrus-bg.jpg"); /* Textura de papiro */
-  background-size: cover;
-  padding: 20px;
+  padding-top: var(--gap-md); /* Alineado con el padding de la página */
+  padding-bottom: var(--gap-md);
+  color: var(--text-light); /* Usar el color de texto global */
+  font-family: "Inter", sans-serif; /* Usar la fuente global moderna */
 }
 
-/* Encabezado */
+/* === Encabezado de la Auditoría (audit-header-card) === */
 .audit-header-card {
-  background-image: url("https://example.com/leather-texture.jpg"); /* Textura de cuero o reptil */
-  background-size: cover;
-  border-radius: 20px; /* Bordes más redondeados */
-  border: 3px solid #8b4513; /* Borde de madera oscura */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-  margin-bottom: 30px;
+  background: linear-gradient(
+    145deg,
+    var(--card-bg-light) 0%,
+    var(--card-bg-dark) 100%
+  ); /* Gradiente dinámico */
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--card-border-subtle); /* Borde sutil */
+  box-shadow: var(--shadow-deep); /* Sombra profunda */
+  margin-bottom: var(--gap-lg); /* Espacio consistente */
   position: relative;
-  padding: 10px;
+  overflow: hidden; /* Para contener los elementos internos */
 }
 
 .audit-card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 20px 25px;
+  padding: var(--gap-md); /* Padding consistente */
+  gap: var(--gap-md); /* Espacio entre secciones */
+  flex-wrap: wrap; /* Para responsive */
 }
 
 .audit-header-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px; /* Espacio más compacto */
 }
 
 .audit-code {
-  font-family: "Uncial Antiqua", serif; /* Fuente tipo mapa antiguo */
+  font-family: "Inter", sans-serif; /* Consistencia de fuente */
   font-weight: 900;
-  font-size: 1.5rem;
-  color: #daa520; /* Dorado brillante */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 1.8rem; /* Prominente */
+  color: var(--accent-blue); /* Color de acento */
+  letter-spacing: 0.8px;
+  text-shadow: none; /* Eliminar sombras de texto */
+  margin-bottom: 5px;
 }
 
 .audit-meta {
-  color: #5c4033; /* Marrón tierra */
-  font-size: 1rem;
-  font-family: "Georgia", serif; /* Fuente legible con toque clásico */
+  color: var(--text-muted); /* Texto secundario */
+  font-size: 0.95rem;
+  font-family: "Inter", sans-serif; /* Consistencia de fuente */
+  line-height: 1.4;
 }
 
+/* BADGES de estado (audit-header-card) */
 .status-badge {
-  background-color: #a0522d; /* Marrón óxido */
-  color: #fff;
-  font-weight: 700;
-  border-radius: 10px; /* Más redondeado */
-  padding: 7px 15px;
   text-transform: uppercase;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4); /* Efecto de grabado */
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif; /* Más robusto */
-}
-
-.audit-header-actions IonButton {
-  --background: #4caf50; /* Verde jungla */
-  --background-activated: #6b8e23;
-  --background-focused: #6b8e23;
-  --background-hover: #6b8e23;
-  --color: #fff;
-  --border-radius: 10px;
-  font-weight: bold;
-  text-transform: uppercase;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-  margin-left: 10px;
-}
-
-.audit-header-actions IonButton[fill="outline"] {
-  --background: transparent;
-  --border-color: #8b4513; /* Borde de madera */
-  --color: #8b4513;
-}
-.audit-header-actions IonButton[color="danger"] {
-  --background: #b22222; /* Rojo óxido */
-}
-
-/* Stats */
-.stats-container {
-  background-image: url("https://example.com/bamboo-texture.jpg"); /* Textura de bambú */
-  background-size: cover;
-  border-radius: 15px;
-  padding: 15px;
-  margin-bottom: 25px;
-  border: 2px solid #5c4033;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.stats-card {
-  background-image: url("https://example.com/wood-slice.jpg"); /* Textura de rebanada de tronco */
-  background-size: cover;
-  border-radius: 50%; /* Circular para las stats */
-  text-align: center;
-  padding: 15px;
-  border: 2px solid #8b4513;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-  aspect-ratio: 1 / 1; /* Para que sea un círculo perfecto */
-  display: flex;
-  flex-direction: column;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 10px 18px; /* Más padding para un look más "button-like" */
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Sombra para que flote */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Más espacio entre icono y texto */
+  font-size: 0.8rem; /* Tamaño de fuente ligeramente más pequeño para el uppercase */
+  align-self: flex-start; /* Alineado arriba en el header */
+  min-width: 120px;
   justify-content: center;
 }
 
+/* Acciones en el encabezado (botones) */
+.audit-header-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end; /* Alineación a la derecha por defecto */
+}
+
+.audit-header-actions ion-button {
+  /* Rediseño */
+  --border-radius: 8px; /* Bordes ligeramente más definidos */
+  font-weight: 600; /* Menos negrita */
+  text-transform: none; /* No todo uppercase */
+  height: 44px; /* Altura ligeramente menor */
+  padding: 0 22px; /* Padding horizontal ajustado */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra más suave */
+  transition: all 0.2s ease-in-out; /* Transición más rápida y suave */
+  --color: white; /* Asegura el color del texto para botones sólidos por defecto */
+  letter-spacing: 0.2px; /* Espaciado de letras sutil */
+}
+
+.audit-header-actions ion-button:hover {
+  transform: translateY(-2px); /* Elevación más sutil */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3); /* Sombra al hover más pronunciada */
+}
+
+.audit-header-actions ion-button[color="primary"] {
+  --background: var(--accent-blue);
+  --background-activated: var(--accent-blue-dark);
+  --background-hover: var(--accent-blue-dark);
+  --color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); /* Sombra de color de acento */
+}
+
+.audit-header-actions ion-button[fill="outline"] {
+  --background: transparent;
+  --border-color: rgba(255, 255, 255, 0.1); /* Borde más sutil */
+  --color: var(--text-light); /* Texto legible y sutil */
+  border: 1px solid; /* Asegurar borde explícito */
+  box-shadow: none; /* Quitar cualquier sombra base para outline */
+}
+.audit-header-actions ion-button[fill="outline"]:hover {
+  --border-color: var(--accent-blue);
+  --color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1); /* Sombra sutil al hacer hover */
+  background-color: rgba(59, 130, 246, 0.08); /* Sutil fondo en hover */
+}
+
+.audit-header-actions ion-button[color="danger"] {
+  --background: var(--accent-red);
+  --background-activated: var(--accent-red-dark);
+  --background-hover: var(--accent-red-dark);
+  --color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); /* Sombra de color de acento */
+}
+
+/* Resumen de la Auditoría */
+.audit-summary {
+  background: var(--card-bg-dark); /* Fondo más oscuro para el resumen */
+  border-radius: var(--border-radius-md);
+  padding: var(--gap-md);
+  margin-bottom: var(--gap-lg);
+  border: 1px solid var(--card-border-subtle);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  color: var(--text-light);
+}
+
+.audit-summary-row {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.audit-summary-row strong {
+  color: var(--text-light);
+  font-weight: 600;
+}
+.audit-summary-row:last-child {
+  margin-bottom: 0;
+}
+
+/* === Stats Container === */
+.stats-container {
+  background: linear-gradient(
+    145deg,
+    var(--card-bg-dark) 0%,
+    #1a2230 100%
+  ); /* Fondo sutil */
+  border-radius: var(--border-radius-md);
+  padding: var(--gap-md); /* Padding consistente */
+  margin-bottom: var(--gap-lg);
+  border: 1px solid var(--card-border-subtle);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.stats-card {
+  background: var(--card-bg-light); /* Fondo de tarjeta base */
+  border-radius: var(
+    --border-radius-md
+  ); /* Rectangular con bordes redondeados, no circular */
+  text-align: center;
+  padding: 18px 15px; /* Más padding */
+  border: 1px solid var(--card-border-subtle);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  aspect-ratio: auto; /* Remover restricción de aspecto */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: var(--transition-ease);
+}
+.stats-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
 .stats-title {
-  color: #daa520; /* Dorado */
+  color: var(--text-muted); /* Color secundario */
   font-size: 0.9rem;
-  font-weight: bold;
+  font-weight: 600;
   text-transform: uppercase;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  text-shadow: none; /* Eliminar sombras de texto */
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
 }
 
 .stats-value {
-  font-size: 1.6rem;
+  font-size: 1.7rem; /* Prominente */
   font-weight: 900;
-  color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-  font-family: "Permanent Marker", cursive; /* Fuente como un marcador */
+  color: var(--text-light); /* Texto principal */
+  text-shadow: none; /* Eliminar sombras de texto */
+  font-family: "Inter", sans-serif; /* Consistencia de fuente */
 }
 
 /* === ITEMS === */
 .items-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--gap-md); /* Espacio consistente */
 }
 
 .item-card {
   width: 100%;
-  background-image: url("https://example.com/parchment-texture.jpg"); /* Textura de pergamino */
-  background-size: cover;
-  border: 2px solid #8b4513; /* Borde de madera */
-  border-radius: 18px;
-  transition: transform 200ms ease, box-shadow 250ms ease;
-  padding: 10px;
+  background: linear-gradient(
+    145deg,
+    var(--card-bg-dark) 0%,
+    var(--card-bg-light) 100%
+  ); /* Gradiente */
+  border: 1px solid var(--card-border-subtle);
+  border-radius: var(--border-radius-md);
+  transition: var(--transition-ease);
+  overflow: hidden; /* Para esquinas redondeadas */
 }
 
 .item-card:hover {
-  transform: translateY(-5px) rotateZ(-1deg); /* Ligera rotación para efecto "hoja" */
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  transform: translateY(-8px); /* Elevación */
+  box-shadow: var(--shadow-card-hover); /* Sombra con glow */
 }
 
 .item-card-content {
-  padding: 18px 22px;
+  padding: var(--gap-md); /* Padding consistente */
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
 }
 
 .item-header {
@@ -158,183 +254,335 @@
 
 .item-title {
   font-weight: 800;
-  font-size: 1.1rem;
-  color: #3b2f2f; /* Marrón oscuro */
-  font-family: "Permanent Marker", cursive; /* Fuente de escritura a mano */
+  font-size: 1.15rem; /* Prominente */
+  color: var(--text-light); /* Texto principal */
+  font-family: "Inter", sans-serif; /* Consistencia de fuente */
+  line-height: 1.3;
 }
 
 .item-desc {
   font-size: 0.95rem;
-  color: #5c4033; /* Marrón tierra */
+  color: var(--text-muted); /* Texto secundario */
   margin-top: 5px;
-  font-family: "Georgia", serif;
+  font-family: "Inter", sans-serif; /* Consistencia de fuente */
+  line-height: 1.5;
 }
 
+/* Botones de resultado (PASS/FAIL/NA) */
 .result-buttons {
   display: flex;
-  gap: 12px;
+  gap: 8px; /* Espacio más compacto */
+  flex-shrink: 0; /* Evitar que se encojan */
+  flex-wrap: wrap;
 }
 
-.result-buttons IonButton {
-  --border-radius: 50%; /* Botones circulares */
-  --padding-start: 10px;
-  --padding-end: 10px;
-  --padding-top: 10px;
-  --padding-bottom: 10px;
-  min-width: 55px; /* Para que sean círculos consistentes */
-  min-height: 55px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-  font-weight: bold;
+.result-buttons ion-button {
+  /* Rediseño */
+  --border-radius: 6px; /* Bordes ligeramente más agudos */
+  --padding-start: 12px; /* Menor padding */
+  --padding-end: 12px; /* Menor padding */
+  height: 36px; /* Altura más compacta */
+  min-width: 70px; /* Ancho mínimo ajustado */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); /* Sombra más sutil */
+  font-weight: 600; /* Menos negrita */
+  font-size: 0.85rem; /* Fuente ligeramente más pequeña */
+  text-transform: uppercase; /* Mantener uppercase para estos */
+  transition: all 0.2s ease-in-out; /* Transición más rápida y suave */
+  --color: white; /* Default para botones solidos */
+}
+.result-buttons ion-button:hover {
+  transform: translateY(-1px); /* Elevación más sutil */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra al hover */
 }
 
-.result-buttons IonButton[color="success"] {
-  --background: #3880ff; /* Verde pasto */
-  --background-activated: #285a8a;
-  --color: #fff;
+.result-buttons ion-button[color="success"] {
+  --background: linear-gradient(90deg, #0ea44b, var(--accent-green));
+  --background-activated: var(--accent-green-dark);
+  --color: white;
 }
-.result-buttons IonButton[color="danger"] {
-  --background: #eb445a; /* Rojo coral */
-  --background-activated: #c11f3d;
-  --color: #fff;
+.result-buttons ion-button[color="danger"] {
+  --background: linear-gradient(90deg, #f43f5e, var(--accent-red));
+  --background-activated: var(--accent-red-dark);
+  --color: white;
 }
-.result-buttons IonButton[color="medium"] {
-  --background: #92949c; /* Gris piedra */
-  --background-activated: #6b6c71;
-  --color: #fff;
-}
-
-.result-buttons IonButton[fill="outline"] {
-  --background: transparent;
-  --border-color: var(--background);
-  --color: var(--background);
-  border: 2px solid;
-  box-shadow: none;
-}
-.result-buttons IonButton IonIcon {
-  font-size: 1.3rem;
+.result-buttons ion-button[color="medium"] {
+  --background: linear-gradient(90deg, #6b7280, #4b5563);
+  --background-activated: #374151;
+  --color: white;
 }
 
+/* Ajustes específicos para los botones 'light' en modo 'outline' */
+.result-buttons ion-button[color="light"][fill="outline"] {
+  --background: rgba(255, 255, 255, 0.04); /* Fondo más visible */
+  --border-color: rgba(255, 255, 255, 0.1); /* Borde más visible */
+  --color: var(--text-light); /* Texto legible en dark backgrounds */
+  border: 1px solid; /* Asegurar borde explícito */
+  box-shadow: none; /* No glow for outline, keep subtle */
+}
+.result-buttons ion-button[color="light"][fill="outline"]:hover {
+  --border-color: var(--accent-blue);
+  --color: var(--accent-blue);
+  background-color: rgba(
+    59,
+    130,
+    246,
+    0.1
+  ); /* Fondo en hover más pronunciado */
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.08); /* Sombra sutil con glow */
+}
+
+/* Acciones de Item (Fotos/Defectos) */
 .item-actions {
-  margin-top: 18px;
+  margin-top: 15px;
   display: flex;
-  gap: 15px;
+  gap: 10px; /* Espacio ligeramente más compacto */
+  flex-wrap: wrap;
 }
 
-.item-actions IonButton {
-  --background: #daa520; /* Dorado */
-  --background-activated: #b8860b;
-  --color: #3b2f2f; /* Texto oscuro */
-  --border-radius: 8px;
-  font-weight: bold;
-  text-transform: capitalize;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.item-actions ion-button {
+  /* Rediseño */
+  --background: var(--card-bg-light); /* Fondo más claro para estos botones */
+  --background-activated: var(--card-bg-dark);
+  --color: var(--text-light); /* Asegurar color de texto */
+  --border-radius: 6px; /* Bordes ligeramente más agudos */
+  font-weight: 500; /* Menos negrita */
+  text-transform: none; /* No uppercase */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra más sutil */
+  height: 38px; /* Altura más compacta */
+  padding: 0 14px; /* Padding ajustado */
+  transition: all 0.2s ease-in-out; /* Transición más rápida y suave */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Borde más sutil */
+}
+.item-actions ion-button:hover {
+  transform: translateY(-1px); /* Elevación más sutil */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3); /* Sombra al hover */
+  border-color: var(--accent-blue); /* Borde de acento al hover */
+  background-color: rgba(59, 130, 246, 0.05); /* Fondo sutil al hover */
 }
 
-.item-actions IonButton[fill="clear"] {
+.item-actions ion-button[fill="clear"] {
   --background: transparent;
-  --color: #8b4513; /* Marrón de madera */
+  --color: var(--accent-blue); /* Color de acento para clear buttons */
   box-shadow: none;
+  border: none;
 }
-.item-actions IonButton IonIcon {
-  font-size: 1.1rem;
+.item-actions ion-button[fill="clear"]:hover {
+  --color: var(--accent-blue-dark);
+  background-color: rgba(59, 130, 246, 0.1);
 }
 
-/* Footer */
+.item-actions ion-icon {
+  font-size: 0.95rem; /* Icono ligeramente más pequeño */
+}
+
+/* Footer Actions (sticky buttons) */
 .footer-actions {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
   display: flex;
+  gap: var(--gap-md);
+  background: linear-gradient(
+    180deg,
+    rgba(12, 12, 12, 0.8),
+    rgba(8, 8, 8, 0.95)
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: var(--gap-md); /* Padding consistente */
+  border-top: 1px solid var(--card-border-subtle);
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.7);
   justify-content: center;
-  gap: 18px;
-  margin-top: 30px;
+  margin-top: var(--gap-lg);
+  border-radius: 0;
 }
 
-.footer-actions IonButton {
-  --border-radius: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  height: 50px;
+.footer-actions ion-button {
+  /* Rediseño */
+  --border-radius: 10px; /* Bordes más redondeados para footer */
+  font-weight: 600; /* Menos negrita */
+  text-transform: none;
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35); /* Sombra más pronunciada */
+  height: 52px; /* Altura ligeramente mayor */
+  padding: 0 28px; /* Más padding horizontal */
+  transition: all 0.2s ease-in-out; /* Transición más rápida y suave */
+  flex-grow: 1; /* Permitir que los botones crezcan */
+  max-width: 280px; /* Limitar el ancho */
+  --color: white; /* Asegurar color de texto para footer buttons */
+  /* Resetear cualquier posible estilo de dark-card-footer */
+  --background: var(
+    --accent-blue
+  ); /* Default primary color for solid footer buttons */
+  border: none; /* Asegurar que no haya borde extra */
+  /* allow IonButton to apply --background; do not override with `background: none` */
+}
+.footer-actions ion-button[color="medium"] {
+  --background: #4b5563;
+  --background-activated: #374151;
+  --background-hover: #374151;
+  --box-shadow: 0 6px 18px rgba(75, 85, 99, 0.3); /* Sombra consistente */
+}
+.footer-actions ion-button:hover {
+  transform: translateY(-4px); /* Elevación más pronunciada */
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4); /* Sombra al hover más profunda */
 }
 
-/* Modales */
+/* === Modales === */
+ion-modal {
+  --background: linear-gradient(
+    180deg,
+    rgba(6, 8, 12, 0.95),
+    rgba(12, 14, 18, 0.98)
+  );
+  --border-radius: var(--border-radius-lg);
+  padding: 15px;
+  --width: 90%;
+  --max-width: 600px; /* Ancho ajustado para modales */
+  --height: auto;
+  --max-height: 90%;
+}
+
 .modal-container {
-  background-image: url("https://example.com/tent-canvas.jpg"); /* Textura de lona de tienda */
-  background-size: cover;
-  color: #3b2f2f;
-  border-radius: 18px;
-  padding: 30px;
-  border: 3px solid #5c4033;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(
+    145deg,
+    var(--card-bg-light) 0%,
+    var(--card-bg-dark) 100%
+  );
+  color: var(--text-light);
+  border-radius: var(--border-radius-lg);
+  padding: var(--gap-lg); /* Más padding */
+  border: 1px solid var(--card-border-subtle);
+  box-shadow: var(--shadow-deep);
 }
 
 .modal-container h3 {
   margin-top: 0;
-  color: #daa520; /* Dorado */
-  font-weight: 800;
-  font-size: 1.3rem;
-  font-family: "Permanent Marker", cursive;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  color: var(--accent-blue); /* Título de modal con acento */
+  font-weight: 700;
+  font-size: 1.6rem;
+  font-family: "Inter", sans-serif;
+  text-shadow: none;
+  margin-bottom: var(--gap-md);
 }
 
-.modal-container IonItem {
-  --background: rgba(
-    255,
-    255,
-    255,
-    0.7
-  ); /* Fondo semi-transparente para los campos */
-  --border-radius: 8px;
+.modal-container ion-item {
+  --background: rgba(255, 255, 255, 0.05); /* Fondo sutil para campos */
+  --border-radius: var(--border-radius-sm);
   margin-bottom: 15px;
-  border: 1px solid #8b4513;
+  border: 1px solid var(--card-border-subtle);
+  padding: 5px 0; /* Padding interno para que el contenido no pegue al borde */
+}
+.modal-container ion-item.item-has-focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
 
-.modal-container IonLabel {
-  font-weight: bold;
-  color: #5c4033;
+.modal-container ion-label {
+  font-weight: 600;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-bottom: 8px;
 }
-.modal-container IonInput,
-.modal-container IonTextarea,
-.modal-container IonSelect {
-  --padding-start: 10px;
-  --padding-end: 10px;
-  color: #3b2f2f;
+.modal-container ion-input,
+.modal-container ion-textarea,
+.modal-container ion-select {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  color: var(--text-light);
+  font-size: 1rem;
 }
 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 15px;
-  margin-top: 25px;
+  gap: 12px;
+  margin-top: var(--gap-md);
 }
 
-.modal-actions IonButton {
-  --border-radius: 10px;
-  font-weight: bold;
-  text-transform: uppercase;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+.modal-actions ion-button {
+  /* Rediseño */
+  --border-radius: 8px; /* Bordes ligeramente más definidos */
+  font-weight: 600; /* Menos negrita */
+  text-transform: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra más suave */
+  height: 44px; /* Altura consistente */
+  padding: 0 20px;
+  transition: all 0.2s ease-in-out; /* Transición más rápida y suave */
+  --color: white; /* Default para botones solidos en modales */
 }
-
-.modal-actions IonButton[fill="outline"] {
+.modal-actions ion-button[fill="outline"] {
   --background: transparent;
-  --border-color: #8b4513;
-  --color: #8b4513;
+  --border-color: rgba(255, 255, 255, 0.1); /* Borde más sutil */
+  --color: var(--text-light); /* Color para outline en modales */
+  border: 1px solid;
+  box-shadow: none;
+}
+.modal-actions ion-button[fill="outline"]:hover {
+  --border-color: var(--accent-blue);
+  --color: var(--accent-blue);
+  background-color: rgba(59, 130, 246, 0.1);
+}
+.modal-actions ion-button[color="primary"] {
+  --background: var(--accent-blue);
+  --background-activated: var(--accent-blue-dark);
+  --background-hover: var(--accent-blue-dark);
+  --color: white;
 }
 
 .file-input {
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 1px solid #8b4513;
-  border-radius: 8px;
-  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border-subtle);
+  border-radius: var(--border-radius-sm);
+  padding: 12px;
   width: 100%;
   margin-top: 10px;
-  color: #3b2f2f;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+.file-input:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  outline: none;
 }
 
 .summary-count {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #5c4033;
-  margin-bottom: 15px;
-  font-family: "Georgia", serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: var(--gap-md);
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+}
+
+/* Empty State / Loading State Styling (duplicado para AuditDetail si es necesario) */
+.empty-state {
+  text-align: center;
+  padding: var(--gap-lg);
+  color: var(--text-muted);
+  background-color: var(--card-bg-dark);
+  border-radius: var(--border-radius-md);
+  margin-top: var(--gap-lg);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--card-border-subtle);
+}
+
+.empty-state h3,
+.empty-state h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+.empty-state h4 {
+  font-size: 1.3rem;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 /* Responsive */
@@ -342,27 +590,82 @@
   .audit-card-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 18px;
+    gap: var(--gap-md);
+  }
+  .audit-header-actions {
+    width: 100%;
+    justify-content: flex-start; /* Alinear a la izquierda en móviles */
+    gap: 10px;
+  }
+  .audit-header-actions ion-button {
+    flex-grow: 1; /* Permitir que los botones llenen el ancho */
+    margin-left: 0;
+    height: 40px; /* Ajuste para móvil */
+    padding: 0 18px;
+  }
+  .audit-code {
+    font-size: 1.6rem;
+  }
+  .status-badge {
+    align-self: flex-start; /* Asegurar alineación */
+  }
+
+  .stats-card {
+    padding: var(--gap-md) 10px;
+  }
+  .stats-value {
+    font-size: 1.5rem;
   }
 
   .item-header {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .result-buttons {
-    width: 100%;
-    justify-content: center; /* Centrar los botones en móviles */
-  }
-
-  .audit-header-actions {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
     gap: 10px;
   }
-  .audit-header-actions IonButton {
+  .result-buttons {
     width: 100%;
-    margin-left: 0;
+    justify-content: flex-start; /* Alinear a la izquierda en móviles */
+    gap: 8px;
+  }
+  .result-buttons ion-button {
+    flex-grow: 1;
+    min-width: unset;
+    padding: 0 10px;
+    height: 34px; /* Ajuste para móvil */
+    font-size: 0.8rem;
+  }
+  .item-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .item-actions ion-button {
+    width: 100%;
+    height: 36px; /* Ajuste para móvil */
+    padding: 0 12px;
+  }
+
+  .footer-actions {
+    flex-wrap: wrap;
+    padding: var(--gap-md);
+    gap: 10px;
+  }
+  .footer-actions ion-button {
+    flex-grow: 1;
+    max-width: unset; /* Permitir que llenen el ancho */
+    height: 48px; /* Ajuste para móvil */
+  }
+
+  ion-modal {
+    --max-width: 95%; /* Más ancho en móviles */
+  }
+  .modal-container {
+    padding: var(--gap-md);
+  }
+  .modal-container h3 {
+    font-size: 1.4rem;
+  }
+  .modal-actions ion-button {
+    height: 40px; /* Ajuste para móvil */
+    padding: 0 18px;
   }
 }
