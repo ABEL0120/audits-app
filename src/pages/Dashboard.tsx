@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   IonContent,
   IonHeader,
@@ -14,20 +14,23 @@ import {
   IonItem,
   IonList,
   IonBadge,
-} from '@ionic/react';
+} from "@ionic/react";
 import {
   add,
   checkmarkDoneCircleOutline,
   chevronForwardOutline,
-} from 'ionicons/icons';
-import './Dashboard.css';
+  // calendarOutline, // Example icon for due date - keep if you want to use it
+  // documentTextOutline, // Example icon for audit - keep if you want to use it
+  // clipboardOutline, // Another example icon - keep if you want to use it
+} from "ionicons/icons";
+import "./Dashboard.css";
 
 interface Audit {
   id: number;
   title: string;
   due: string;
-  status: 'PENDIENTE' | 'EN PROCESO';
-  icon: string;
+  status: "PENDIENTE" | "EN PROCESO";
+  icon: string; // Dynamic icon for each audit
 }
 
 interface CompletedAudit {
@@ -36,13 +39,13 @@ interface CompletedAudit {
   date: string;
 }
 
-// Data removed per request: start empty and show placeholders
-const userData = { name: '', avatarUrl: '' };
+// Data is now empty, ready for API consumption
+const userData = { name: "", avatarUrl: "" };
 const pendingAudits: Audit[] = [];
 const completedAudits: CompletedAudit[] = [];
 
 const PendienteCard: React.FC<{ audit: Audit }> = ({ audit }) => (
-  <IonCard className={`dark-card status-${audit.status.toLowerCase()}`}>
+  <IonCard className={`dark-card`}>
     <div className="dark-card-header">
       <IonIcon icon={audit.icon} className="dark-icon" />
       <div>
@@ -51,11 +54,11 @@ const PendienteCard: React.FC<{ audit: Audit }> = ({ audit }) => (
       </div>
     </div>
     <div className="dark-card-footer">
-      <IonBadge color={audit.status === 'PENDIENTE' ? 'warning' : 'primary'}>
+      <IonBadge color={audit.status === "PENDIENTE" ? "warning" : "primary"}>
         {audit.status}
       </IonBadge>
       <IonButton fill="clear" size="small" routerLink={`/audits/${audit.id}`}>
-        {audit.status === 'PENDIENTE' ? 'Empezar Auditoría' : 'Continuar'}
+        {audit.status === "PENDIENTE" ? "Empezar Auditoría" : "Continuar"}
         <IonIcon icon={chevronForwardOutline} slot="end" />
       </IonButton>
     </div>
@@ -75,10 +78,14 @@ const Dashboard: React.FC = () => {
         <div className="hero-dark">
           <div className="hero-info">
             <p>Hola</p>
-            <h1>{userData.name || 'Bienvenido'}</h1>
+            <h1>{userData.name || "Bienvenido"}</h1>
           </div>
           {userData.avatarUrl ? (
-            <img src={userData.avatarUrl} alt="avatar" className="hero-avatar" />
+            <img
+              src={userData.avatarUrl}
+              alt="avatar"
+              className="hero-avatar"
+            />
           ) : (
             <div className="hero-avatar-placeholder" />
           )}
@@ -92,9 +99,7 @@ const Dashboard: React.FC = () => {
             <p>Cuando se creen auditorías aparecerán aquí.</p>
           </div>
         ) : (
-          pendingAudits.map((a) => (
-            <PendienteCard key={a.id} audit={a} />
-          ))
+          pendingAudits.map((a) => <PendienteCard key={a.id} audit={a} />)
         )}
 
         <div className="completed-section">
@@ -104,7 +109,9 @@ const Dashboard: React.FC = () => {
               <IonIcon icon={chevronForwardOutline} />
             </summary>
             {completedAudits.length === 0 ? (
-              <div className="empty-state small">No hay auditorías finalizadas</div>
+              <div className="empty-state small">
+                No hay auditorías finalizadas
+              </div>
             ) : (
               <IonList lines="none" className="completed-list">
                 {completedAudits.map((audit) => (

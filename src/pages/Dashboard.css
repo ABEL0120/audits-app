@@ -1,132 +1,331 @@
 .dark-bg {
-	--background: #121212;
-	background-color: #121212;
-	color: #e5e5e5;
+  --background: #0d0d0d; /* Slightly darker for deeper contrast */
+  background-color: #0d0d0d;
+  color: #e0e0e0; /* Softer white for text */
 }
 
 .dark-toolbar {
-	--background: linear-gradient(135deg, #1f1f1f 0%, #2c2c2c 100%);
-	color: #ffffff;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  --background: linear-gradient(
+    135deg,
+    #181818 0%,
+    #252525 100%
+  ); /* Adjusted gradient */
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7); /* Stronger, more defined shadow */
 }
 
 .toolbar-title {
-	font-weight: bold;
-	letter-spacing: 0.5px;
+  font-weight: 700; /* Bolder */
+  letter-spacing: 0.8px; /* Slightly more spacing */
+  font-size: 1.3rem; /* A bit larger */
 }
 
 .hero-dark {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background: linear-gradient(135deg, #1a1a1a 0%, #232323 100%);
-	border: 1px solid #2a2a2a;
-	color: white;
-	padding: 24px;
-	border-radius: 18px;
-	margin-bottom: 20px;
-	box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(
+    145deg,
+    #1c1c1c 0%,
+    #2a2a2a 100%
+  ); /* Deeper, more angled gradient */
+  border: 1px solid #333333; /* Slightly lighter border for subtle definition */
+  color: white;
+  padding: 28px; /* Increased padding */
+  border-radius: 20px; /* Slightly larger radius */
+  margin-bottom: 25px; /* More space below hero */
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.6); /* Enhanced shadow */
+  position: relative; /* For potential background elements */
+  overflow: hidden; /* Ensures anything extending out is clipped */
+}
+
+/* Subtle background pattern/texture for hero */
+.hero-dark::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+      circle at 10% 20%,
+      rgba(56, 128, 255, 0.1) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(255, 193, 7, 0.05) 0%,
+      transparent 40%
+    );
+  opacity: 0.5;
+  z-index: 0;
+  animation: rotateBackground 20s linear infinite; /* Subtle animation */
+}
+
+@keyframes rotateBackground {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hero-info {
+  position: relative; /* Bring info above background pseudo-element */
+  z-index: 1;
+}
+
+.hero-info p {
+  margin: 0;
+  font-size: 0.95rem; /* Slightly larger intro text */
+  color: #b0b0b0; /* Softer color */
+  font-weight: 500;
 }
 
 .hero-info h1 {
-	margin: 0;
-	font-size: 1.8rem;
-	font-weight: bold;
-	color: #fff;
+  margin: 4px 0 0 0; /* Adjusted margin */
+  font-size: 2.2rem; /* Larger and more prominent */
+  font-weight: 800; /* Extra bold for impact */
+  color: #ffffff;
+  line-height: 1.2;
 }
 
 .hero-avatar {
-	width: 70px;
-	height: 70px;
-	border-radius: 50%;
-	border: 3px solid #3880ff;
-	background-color: #111;
+  width: 75px; /* Slightly larger avatar */
+  height: 75px;
+  border-radius: 50%;
+  border: 4px solid #3880ff; /* Thicker, more prominent border */
+  background-color: #111;
+  box-shadow: 0 0 0 2px rgba(56, 128, 255, 0.4); /* Glow effect */
+  position: relative;
+  z-index: 1;
+}
+
+.hero-avatar-placeholder {
+  width: 75px; /* Match avatar size */
+  height: 75px;
+  border-radius: 50%;
+  border: 4px solid #3880ff;
+  background-color: #2a2a2a; /* Darker placeholder */
+  box-shadow: 0 0 0 2px rgba(56, 128, 255, 0.4);
+  position: relative;
+  z-index: 1;
 }
 
 .section-title {
-	font-size: 1.2rem;
-	font-weight: bold;
-	margin: 10px 0;
-	color: #eaeaea;
+  font-size: 1.4rem; /* Larger section titles */
+  font-weight: 700;
+  margin: 30px 0 15px 0; /* More vertical space */
+  color: #f0f0f0;
 }
 
 .dark-card {
-	background: linear-gradient(145deg, #181818, #1f1f1f);
-	border-radius: 16px;
-	padding: 16px;
-	margin-bottom: 14px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
-	color: #eaeaea;
+  background: linear-gradient(
+    155deg,
+    #181818 0%,
+    #222222 100%
+  ); /* Deeper gradient for cards */
+  border-radius: 18px; /* Slightly larger radius */
+  padding: 20px; /* More padding inside cards */
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Enhanced shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; /* Smoother transitions */
+  color: #e0e0e0;
+  border: 1px solid #2a2a2a; /* Subtle border for definition */
 }
 
 .dark-card:hover {
-	transform: translateY(-4px);
-	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+  transform: translateY(-6px) scale(1.01); /* More pronounced lift and slight scale */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(
+    155deg,
+    #222222 0%,
+    #2c2c2c 100%
+  ); /* Slightly lighter on hover */
 }
 
 .dark-card-header {
-	display: flex;
-	align-items: center;
-	gap: 12px;
+  display: flex;
+  align-items: flex-start; /* Align items to start for multi-line text */
+  gap: 15px; /* Increased gap */
+  margin-bottom: 12px; /* Space between header and footer */
 }
 
 .dark-icon {
-	font-size: 26px;
-	color: #3880ff;
+  font-size: 30px; /* Larger icons */
+  color: #3880ff;
+  flex-shrink: 0; /* Prevent icon from shrinking */
+  padding-top: 2px; /* Align icon better with text */
 }
 
 .dark-card-header h2 {
-	font-size: 1rem;
-	font-weight: bold;
-	margin: 0;
-	color: #f5f5f5;
+  font-size: 1.15rem; /* Larger card titles */
+  font-weight: 700;
+  margin: 0;
+  color: #f8f8f8;
 }
 
 .dark-card-header p {
-	font-size: 0.85rem;
-	color: #aaa;
-	margin: 0;
+  font-size: 0.9rem; /* Slightly larger text */
+  color: #a0a0a0;
+  margin: 2px 0 0 0; /* Adjusted margin */
 }
 
 .dark-card-footer {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px; /* More space above footer */
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08); /* Subtle separator */
+}
+
+.dark-card-footer ion-badge {
+  padding: 6px 10px; /* Larger badge */
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Specific badge colors */
+.dark-card-footer ion-badge[color="warning"] {
+  --background: #ffc107; /* Warning yellow */
+  --color: #333;
+}
+
+.dark-card-footer ion-badge[color="primary"] {
+  --background: #3880ff; /* Primary blue */
+  --color: #fff;
+}
+
+.dark-card-footer ion-button {
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --color: #3880ff; /* Primary color for button text */
+  font-weight: 600;
+  font-size: 0.9rem;
+  --border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+.dark-card-footer ion-button:hover {
+  --color: #5da0ff; /* Lighter blue on hover */
+  transform: translateX(3px); /* Slight movement on hover */
 }
 
 .completed-section {
-	margin-top: 20px;
+  margin-top: 35px; /* More space above completed section */
+  padding-top: 20px; /* Internal padding */
+  border-top: 1px dashed rgba(255, 255, 255, 0.1); /* Dashed separator */
 }
 
 .completed-summary {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	font-weight: bold;
-	color: #3880ff;
-	cursor: pointer;
-	padding: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  color: #5da0ff; /* Slightly brighter blue for summary */
+  cursor: pointer;
+  padding: 12px 10px; /* More padding */
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.completed-summary:hover {
+  background-color: rgba(56, 128, 255, 0.08); /* Subtle background on hover */
+}
+
+.completed-summary ion-icon {
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+details[open] .completed-summary ion-icon {
+  transform: rotate(90deg); /* Rotate icon when open */
 }
 
 .completed-list {
-	background-color: #181818;
-	border-radius: 12px;
-	padding: 8px 0;
+  background-color: #1a1a1a; /* Slightly lighter for the list background */
+  border-radius: 14px;
+  padding: 10px 0;
+  margin-top: 10px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4); /* Inset shadow for depth */
 }
 
 .completed-item {
-	--background: #181818;
-	color: #eaeaea;
+  --background: #1a1a1a; /* Ensure item background matches list */
+  color: #e0e0e0;
+  padding: 10px 15px; /* More padding for items */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Subtle separator */
+}
+
+.completed-item:last-child {
+  border-bottom: none;
 }
 
 .completed-item h3 {
-	font-size: 0.95rem;
-	font-weight: bold;
+  font-size: 1rem; /* Slightly larger title */
+  font-weight: 600;
+  margin-bottom: 2px;
 }
 
 .completed-item p {
-	font-size: 0.8rem;
-	color: #888;
+  font-size: 0.85rem; /* Slightly larger date text */
+  color: #999;
+  margin: 0;
+}
+
+.completed-item ion-icon {
+  font-size: 1.2rem; /* Larger icon */
+}
+
+/* Empty State Styles */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #1a1a1a;
+  border-radius: 18px;
+  margin-top: 20px;
+  border: 1px dashed #333;
+  color: #b0b0b0;
+}
+
+.empty-state h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f0f0f0;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.empty-state.small {
+  padding: 20px 15px;
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+.empty-state.small h4 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+/* Fab Button */
+ion-fab-button {
+  --background: #3880ff;
+  --background-activated: #5da0ff;
+  --background-focused: #5da0ff;
+  --background-hover: #5da0ff;
+  --box-shadow: 0 4px 10px rgba(56, 128, 255, 0.4);
+  transition: all 0.2s ease;
+}
+
+ion-fab-button:hover {
+  transform: translateY(-3px);
+  --box-shadow: 0 6px 15px rgba(56, 128, 255, 0.6);
 }

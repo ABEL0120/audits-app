@@ -3,134 +3,251 @@
   Le damos un fondo a toda la página para que la tarjeta contraste
 */
 .auth-page {
-  /* Usamos un gradiente radial sutil para el fondo de la página */
-  --background: radial-gradient(circle at top, #111827 0%, #070b12 100%);
+  /* Gradiente radial más oscuro y profundo para la página */
+  --background: radial-gradient(circle at top, #0f172a 0%, #03070f 100%);
+  position: relative;
+  overflow: hidden; /* Asegura que los elementos de fondo se recorten */
 }
 
-/* 2. Centrado Correcto en IonContent
-  Esta es la clave para centrar. Apuntamos a la parte interna de IonContent
-*/
+/* Animación de fondo sutil para un toque dinámico */
+.auth-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at 15% 15%,
+      rgba(49, 112, 245, 0.1) 0%,
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 85%,
+      rgba(6, 182, 212, 0.08) 0%,
+      transparent 30%
+    );
+  background-size: 200% 200%;
+  animation: moveBackground 30s linear infinite alternate;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+@keyframes moveBackground {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* 2. Centrado Correcto en IonContent */
 .auth-page::part(scroll) {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 20px; /* Asegura un padding en pantallas pequeñas */
+  position: relative; /* Para que la tarjeta esté encima del fondo animado */
+  z-index: 1; /* Coloca el contenido por encima del pseudo-elemento */
 }
 
 /*
   3. La Tarjeta de Login (Mejorada)
-  Mejoramos el padding, el fondo y la sombra.
 */
 .auth-card {
   width: 100%;
-  max-width: 440px;
-  /* Fondo sólido, más claro que el fondo de la página */
-  background: #0f1720;
-  padding: 32px 28px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  /* Sombra más suave y difusa */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  color: var(--ion-color-light-shade);
+  max-width: 460px; /* Ligeramente más ancha */
+  /* Fondo más sofisticado con gradiente */
+  background: linear-gradient(145deg, #162030 0%, #0e1520 100%);
+  padding: 38px 30px; /* Más padding */
+  border-radius: 20px; /* Bordes más suaves */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Borde más visible */
+  /* Sombra más profunda y con un toque de azul para integrarse con el tema */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(49, 112, 245, 0.05);
+  color: #e0e0e0; /* Texto más claro */
+  transition: transform 0.3s ease; /* Pequeña animación al cargar */
+}
+
+/* Animación inicial para la tarjeta */
+.auth-card {
+  animation: fadeInScale 0.6s ease-out forwards;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 /*
   4. Cabecera de la Tarjeta
-  Ajustamos espaciado.
 */
 .auth-brand {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 24px; /* Más espacio */
+  gap: 16px; /* Más espacio */
+  margin-bottom: 28px; /* Más espacio */
 }
 
 .auth-logo {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  width: 64px; /* Logo más grande */
+  height: 64px;
+  border-radius: 14px; /* Bordes ligeramente más grandes */
+  background: linear-gradient(
+    135deg,
+    #4f46e5 0%,
+    #06b6d4 100%
+  ); /* Mantener el gradiente */
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); /* Sutil glow alrededor del logo */
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: 700;
-  font-size: 20px;
-  flex-shrink: 0; /* Evita que se encoja */
+  font-size: 24px; /* Texto del logo más grande */
+  flex-shrink: 0;
 }
 
 .auth-title {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.6rem; /* Título principal más grande y llamativo */
+  font-weight: 700;
+  color: #ffffff;
 }
 .auth-sub {
-  margin-top: 6px;
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 0.95rem;
+  margin-top: 8px; /* Más espacio */
+  color: rgba(255, 255, 255, 0.75); /* Color más visible */
+  font-size: 1rem; /* Texto más grande */
   line-height: 1.4;
 }
 
 /*
   5. Campos del Formulario (La mejora más grande)
-  Hacemos que los IonItem se vean como inputs reales.
 */
 .auth-form {
-  margin-top: 24px;
+  margin-top: 28px; /* Más espacio */
 }
 
 .auth-field {
-  margin-bottom: 16px; /* Más espacio entre campos */
+  margin-bottom: 20px; /* Más espacio entre campos */
 }
 
 .auth-field IonItem {
-  --background: rgba(0, 0, 0, 0.25); /* Fondo inset oscuro */
-  --border-radius: 10px;
-  --padding-start: 12px;
-  --highlight-height: 0; /* Quita la línea de abajo por defecto */
-  border: 1px solid rgba(255, 255, 255, 0.07); /* Borde sutil */
-  transition: border-color 0.2s ease;
+  --background: rgba(0, 0, 0, 0.35); /* Fondo más oscuro para el input */
+  --border-radius: 12px; /* Bordes más redondeados */
+  --padding-start: 16px; /* Más padding interno */
+  --highlight-height: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12); /* Borde más definido */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Transiciones para foco */
 }
 
-/* Resalta el borde cuando está enfocado */
+/* Resalta el borde y agrega sombra cuando está enfocado */
 .auth-field IonItem.item-has-focus {
-  border-color: var(--ion-color-primary);
+  border-color: var(--ion-color-primary, #3880ff); /* Color primario de Ionic */
+  box-shadow: 0 0 0 2px rgba(56, 128, 255, 0.3); /* Sombra de glow azul */
 }
 
 .auth-field IonLabel[position="stacked"] {
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 500;
-  font-size: 0.9rem;
-  margin-left: 4px;
-  margin-bottom: 2px;
+  color: rgba(255, 255, 255, 0.7); /* Color de label más claro */
+  font-weight: 600; /* Más peso al label */
+  font-size: 0.95rem; /* Tamaño de label más grande */
+  margin-left: 6px; /* Margen para alinearse mejor */
+  margin-bottom: 4px; /* Más espacio */
+}
+
+.auth-field IonInput {
+  --color: #ffffff; /* Texto del input blanco */
+  font-size: 1rem; /* Texto del input más grande */
 }
 
 /*
   6. Botones y Pie de Página
 */
 .auth-actions {
-  margin-top: 24px;
+  margin-top: 30px; /* Más espacio */
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Espacio entre botones */
 }
 
 .auth-actions IonButton {
-  --border-radius: 10px;
-  /* Agregamos una sombra al botón para que destaque */
-  --box-shadow: 0 4px 15px rgba(49, 112, 245, 0.2);
-  font-weight: 600;
-  height: 48px;
-  text-transform: none; /* Opcional: quita mayúsculas */
+  --border-radius: 12px; /* Bordes más redondeados */
+  /* Sombra más pronunciada y con color para que destaque */
+  --box-shadow: 0 6px 20px rgba(49, 112, 245, 0.3);
+  font-weight: 700; /* Más peso */
+  height: 52px; /* Botón más alto */
+  text-transform: none;
+  font-size: 1.05rem; /* Texto del botón más grande */
+  transition: all 0.2s ease;
+}
+
+/* Efecto hover/active para el botón principal */
+.auth-actions IonButton[type="submit"]:not(:disabled):hover {
+  --background: var(--ion-color-primary-shade); /* Un poco más oscuro */
+  --box-shadow: 0 8px 25px rgba(49, 112, 245, 0.4);
+  transform: translateY(-2px);
+}
+
+.auth-actions IonButton[fill="clear"] {
+  --color: rgba(255, 255, 255, 0.5); /* Color más suave */
+  font-weight: 500;
+  font-size: 0.9rem;
+  height: auto; /* Permite que el botón sea más pequeño */
+  padding: 8px 0;
+  transition: color 0.2s ease;
+}
+
+.auth-actions IonButton[fill="clear"]:hover {
+  --color: var(--ion-color-primary, #3880ff); /* Destaca en hover */
+}
+
+/* Manejo de errores */
+.auth-error-message {
+  margin-top: 20px;
+  padding: 12px;
+  background: rgba(255, 0, 0, 0.15); /* Fondo suave para el error */
+  border-left: 4px solid var(--ion-color-danger, #eb445a); /* Barra roja a la izquierda */
+  border-radius: 8px;
+  color: var(--ion-color-danger, #eb445a);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .auth-footer {
-  margin-top: 24px;
+  margin-top: 30px; /* Más espacio */
   text-align: center;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.92rem;
-  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7); /* Color más visible */
+  font-size: 0.95rem; /* Texto más grande */
+  line-height: 1.6;
 }
 
 .auth-cta {
-  color: #a78bfa;
-  font-weight: 600;
+  color: #a78bfa; /* Morado para el CTA */
+  font-weight: 700; /* Más peso */
   text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.auth-cta:hover {
+  color: #c4b5fd; /* Más claro en hover */
 }

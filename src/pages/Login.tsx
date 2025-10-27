@@ -33,7 +33,10 @@ const Login: React.FC = () => {
     try {
       const data = await loginApi(email, password);
       const token =
-        data.token || data.access_token || (data.data && data.data.token) || null;
+        data.token ||
+        data.access_token ||
+        (data.data && data.data.token) ||
+        null;
       const user = data.user || data.data?.user || { email };
       if (!token) throw new Error("Token no recibido desde el servidor");
       // set axios default header for following requests
@@ -53,10 +56,10 @@ const Login: React.FC = () => {
   function triggerTestNotification() {
     try {
       // dispatch the same event UpdateToast listens for
-      window.dispatchEvent(new CustomEvent('sw:needs-refresh'));
-      console.info('sw:needs-refresh event dispatched (test)');
+      window.dispatchEvent(new CustomEvent("sw:needs-refresh"));
+      console.info("sw:needs-refresh event dispatched (test)");
     } catch (err) {
-      console.debug('failed to dispatch test sw event', err);
+      console.debug("failed to dispatch test sw event", err);
     }
   }
 
@@ -112,17 +115,20 @@ const Login: React.FC = () => {
                   "Entrar"
                 )}
               </IonButton>
+              {/* Puedes comentar o eliminar el botón de notificación de prueba si no es necesario */}
               <IonButton fill="clear" onClick={triggerTestNotification}>
                 Probar notificación
               </IonButton>
             </div>
             {error && (
-              <div style={{ marginTop: 12 }}>
+              <div className="auth-error-message">
                 <IonText color="danger">{error}</IonText>
               </div>
             )}
             <div className="auth-footer">
               ¿No tienes cuenta? Solicita a tu supervisor que cree tu usuario.
+              {/* Ejemplo de un CTA si tuvieras una página de registro/solicitud */}
+              {/* <a href="/request-account" className="auth-cta">Solicitar cuenta</a> */}
             </div>
           </form>
         </div>

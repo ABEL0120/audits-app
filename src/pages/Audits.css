@@ -1,326 +1,596 @@
+/* Variables Globales mejoradas */
 :root {
-    --bg-dark: #0d0d0d;
-    --card-bg: #1a1a1a;
-    --card-border: #2a2a2a;
-    --accent-blue: #3b82f6;
-    --accent-green: #10b981;
-    --accent-red: #ef4444;
-    --accent-yellow: #facc15;
-    --text-light: #f5f5f5;
-    --text-muted: #9ca3af;
-    --shadow-strong: 0 4px 25px rgba(0, 0, 0, 0.6);
-    --transition-fast: 0.25s ease-in-out;
+  --bg-dark: #070a13; /* Fondo principal más oscuro y profundo */
+  --card-bg-light: #161c28; /* Fondo de tarjeta base ligeramente más claro */
+  --card-bg-dark: #0f131b; /* Fondo de tarjeta de contraste */
+  --card-border-subtle: rgba(
+    255,
+    255,
+    255,
+    0.08
+  ); /* Borde sutil para tarjetas */
+  --accent-blue: #3b82f6; /* Azul primario */
+  --accent-blue-dark: #2563eb; /* Azul oscuro para hover */
+  --accent-green: #10b981; /* Verde primario */
+  --accent-green-dark: #059669; /* Verde oscuro para hover */
+  --accent-red: #ef4444; /* Rojo primario */
+  --accent-red-dark: #dc2626; /* Rojo oscuro para hover */
+  --accent-yellow: #facc15; /* Amarillo primario */
+  --accent-yellow-dark: #eab308; /* Amarillo oscuro para hover */
+  --text-light: #e2e8f0; /* Color de texto principal */
+  --text-muted: #94a3b8; /* Color de texto secundario/apagado */
+  --shadow-deep: 0 10px 40px rgba(0, 0, 0, 0.7); /* Sombra profunda para elementos principales */
+  --shadow-card-hover: 0 18px 45px rgba(0, 0, 0, 0.8),
+    0 0 0 2px rgba(59, 130, 246, 0.1); /* Sombra con glow para hover de tarjeta */
+  --transition-ease: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); /* Transición más suave y elástica */
+  --border-radius-lg: 16px;
+  --border-radius-md: 12px;
+  --border-radius-sm: 8px;
 }
 
-/* Fondo global */
+/* Fondo global y Tipografía */
 .ion-page,
 .dark-theme,
 ion-content {
-    background-color: var(--bg-dark) !important;
-    color: var(--text-light) !important;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-dark) !important;
+  color: var(--text-light) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Inter", sans-serif; /* Fuente más moderna */
+  position: relative; /* Para el fondo con patrón */
+  overflow: hidden;
+}
+
+/* Patrón de fondo sutil */
+.dark-theme::before,
+.audit-detail-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+      circle at 15% 50%,
+      rgba(59, 130, 246, 0.05) 0%,
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 85% 50%,
+      rgba(16, 185, 129, 0.03) 0%,
+      transparent 25%
+    );
+  background-size: 200% 200%;
+  animation: backgroundPan 40s linear infinite alternate;
+  opacity: 0.7;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes backgroundPan {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
 }
 
 /* Toolbar superior */
 ion-toolbar {
-    background: linear-gradient(90deg, #0f1720 0%, #111 80%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
+  --background: linear-gradient(
+    135deg,
+    #0e121b 0%,
+    #151a24 100%
+  ); /* Gradiente más pronunciado */
+  border-bottom: 1px solid var(--card-border-subtle);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8); /* Sombra más fuerte */
 }
 
 /* Título principal */
 ion-title {
-    font-weight: 700;
-    color: var(--text-light);
-    text-transform: none;
-    letter-spacing: 0.6px;
-    font-size: 1.05rem;
+  font-weight: 800; /* Más audaz */
+  color: var(--text-light);
+  letter-spacing: 0.8px;
+  font-size: 1.25rem; /* Más grande */
+  text-align: left;
 }
 
-/* CARD PRINCIPAL DE AUDITORÍA */
+/* CARD PRINCIPAL DE AUDITORÍA (AUDIT DETAIL HEADER) */
 .audit-header-card {
-    background: linear-gradient(180deg, rgba(24, 24, 28, 0.9), rgba(16, 16, 18, 0.85));
-    border-radius: 14px;
-    padding: 0;
-    box-shadow: 0 14px 40px rgba(2, 6, 23, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.02);
-    transition: transform 180ms ease, box-shadow 180ms ease;
+  background: linear-gradient(
+    145deg,
+    var(--card-bg-light) 0%,
+    var(--card-bg-dark) 100%
+  ); /* Gradiente dinámico */
+  border-radius: var(--border-radius-lg);
+  padding: 20px; /* Más padding */
+  box-shadow: var(--shadow-deep);
+  border: 1px solid var(--card-border-subtle);
+  transition: var(--transition-ease);
+  position: relative;
+  z-index: 1; /* Asegura que esté por encima del fondo animado */
 }
 
 .audit-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Alineación flexible */
+  gap: 20px;
+  padding: 0; /* Ya tenemos padding en .audit-header-card */
+  margin-bottom: 15px; /* Más espacio abajo */
 }
 
+.audit-header-info h2 {
+  font-size: 1.6rem; /* Título más grande */
+  font-weight: 900;
+  color: var(--text-light);
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.audit-header-info p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.audit-header-info .audit-code {
+  font-size: 1.1rem; /* Código más grande */
+  font-weight: 900;
+  color: var(--accent-blue);
+  margin-bottom: 6px;
+  letter-spacing: 0.8px;
+}
+
+/* BADGES de estado */
 .status-badge {
-    text-transform: uppercase;
-    font-weight: 800;
-    letter-spacing: 0.6px;
-    padding: 6px 10px;
-    border-radius: 8px;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 8px 14px; /* Más padding */
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Sombra para que flote */
+  display: inline-flex; /* Asegura que el padding funcione bien */
+  align-items: center;
+  gap: 5px;
+}
+
+.status-badge ion-icon {
+  font-size: 0.9rem; /* Icono en badge */
 }
 
 /* STATS CARDS */
 .stats-card {
-    background: linear-gradient(180deg, rgba(20, 20, 22, 0.6), rgba(14, 14, 16, 0.6));
-    border-radius: 10px;
-    padding: 14px 12px;
-    text-align: center;
-    transition: transform 160ms ease, box-shadow 160ms ease;
-    border: 1px solid rgba(255, 255, 255, 0.02);
+  background: linear-gradient(
+    145deg,
+    var(--card-bg-dark) 0%,
+    #1a2230 100%
+  ); /* Gradiente sutil */
+  border-radius: var(--border-radius-md);
+  padding: 18px 15px; /* Más padding */
+  text-align: center;
+  transition: var(--transition-ease);
+  border: 1px solid var(--card-border-subtle);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.stats-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .stats-title {
-    color: var(--text-muted);
-    font-size: 0.78rem;
-    margin-bottom: 6px;
+  color: var(--text-muted);
+  font-size: 0.85rem; /* Más grande */
+  margin-bottom: 8px; /* Más espacio */
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .stats-value {
-    font-weight: 800;
-    font-size: 1.25rem;
+  font-weight: 900; /* Extra bold */
+  font-size: 1.5rem; /* Más grande */
+  color: var(--text-light);
 }
 
 /* LISTA DE ITEMS */
+.items-container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(280px, 1fr)
+  ); /* Columnas más anchas */
+  gap: 20px; /* Más espacio entre items */
+  margin-top: 30px; /* Más margen superior */
+  position: relative;
+  z-index: 1;
+}
+
 .item-card {
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--card-border-subtle);
+  background: linear-gradient(
+    145deg,
+    var(--card-bg-dark) 0%,
+    var(--card-bg-light) 100%
+  );
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  transition: var(--transition-ease);
+  display: flex;
+  flex-direction: column;
+}
+
+.item-card:hover {
+  transform: translateY(-8px) scale(1.02); /* Más pronunciado */
+  box-shadow: var(--shadow-card-hover);
 }
 
 .item-card ion-card-content,
 .item-card .item-card-content {
-    background: linear-gradient(180deg, rgba(18, 18, 20, 0.55), rgba(12, 12, 14, 0.55));
-    padding: 14px 16px;
+  background: transparent; /* El gradiente ya está en el .item-card */
+  padding: 20px; /* Más padding */
+  flex-grow: 1; /* Para que ocupe todo el espacio */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.item-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 36px rgba(2, 6, 23, 0.6);
+.item-title {
+  color: var(--text-light);
+  font-weight: 800;
+  font-size: 1.05rem; /* Título más grande */
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.item-desc {
+  color: var(--text-muted);
+  font-size: 0.92rem; /* Descripción más grande */
+  margin-bottom: 15px; /* Más espacio */
+  flex-grow: 1; /* Permite que la descripción empuje los botones hacia abajo */
 }
 
 /* Botones de resultados */
 .result-buttons {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+  display: flex;
+  gap: 10px; /* Más espacio */
+  align-items: center;
+  margin-top: auto; /* Asegura que los botones estén abajo */
 }
 
 .result-buttons ion-button,
 .result-buttons button {
-    --padding-start: 10px;
-    --padding-end: 10px;
-    border-radius: 8px;
-    font-weight: 800;
-    letter-spacing: 0.6px;
+  --padding-start: 14px; /* Más padding */
+  --padding-end: 14px;
+  border-radius: var(--border-radius-sm);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  height: 40px; /* Altura fija para botones */
+  min-width: 80px; /* Ancho mínimo para consistencia */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: var(--transition-ease);
+}
+
+.result-buttons ion-button:hover,
+.result-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
 }
 
 .result-pass {
-    background: linear-gradient(90deg, #0ea44b, #10b981);
+  --background: linear-gradient(90deg, #0ea44b, var(--accent-green));
+  --background-hover: var(--accent-green-dark);
 }
 
 .result-fail {
-    background: linear-gradient(90deg, #f43f5e, #ef4444);
+  --background: linear-gradient(90deg, #f43f5e, var(--accent-red));
+  --background-hover: var(--accent-red-dark);
 }
 
 .result-na {
-    background: linear-gradient(90deg, #6b7280, #4b5563);
+  --background: linear-gradient(90deg, #6b7280, #4b5563);
+  --background-hover: #374151;
 }
 
-/* BADGES */
+/* BADGES genéricos (para lista de auditorías) */
 ion-badge {
-    text-transform: uppercase;
-    font-size: 0.72rem;
-    letter-spacing: 0.5px;
-    border-radius: 8px;
-    padding: 6px 12px;
-    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.45);
+  text-transform: uppercase;
+  font-size: 0.75rem; /* Más grande */
+  letter-spacing: 0.7px;
+  border-radius: var(--border-radius-sm);
+  padding: 7px 14px; /* Más padding */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  font-weight: 700;
 }
 
 /* MODALS */
 ion-modal {
-    --background: linear-gradient(180deg, rgba(6, 8, 12, 0.9), rgba(12, 14, 18, 0.95));
-    color: var(--text-light);
-    --border-radius: 14px;
-    padding: 8px;
+  --background: linear-gradient(
+    180deg,
+    rgba(6, 8, 12, 0.95),
+    rgba(12, 14, 18, 0.98)
+  ); /* Fondo más oscuro y opaco */
+  --border-radius: var(--border-radius-lg);
+  padding: 10px; /* Más padding alrededor */
 }
 
-ion-item {
-    --background: transparent;
-    color: var(--text-light);
+ion-modal::part(content) {
+  border-radius: var(--border-radius-lg);
 }
 
-ion-label {
-    color: var(--text-light);
-}
-
-/* FOOTER ACTIONS */
+/* Footer Actions (sticky buttons) */
 .footer-actions {
-    position: sticky;
-    bottom: 14px;
-    display: flex;
-    gap: 12px;
-    background: linear-gradient(180deg, rgba(12, 12, 12, 0.65), rgba(8, 8, 8, 0.55));
-    padding: 12px;
-    border-radius: 14px;
-    justify-content: center;
-    margin-top: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.02);
+  position: sticky;
+  bottom: 0; /* Pegado abajo */
+  left: 0;
+  right: 0;
+  z-index: 10; /* Asegura que esté por encima de todo */
+  display: flex;
+  gap: 16px; /* Más espacio entre botones */
+  background: linear-gradient(
+    180deg,
+    rgba(12, 12, 12, 0.8),
+    rgba(8, 8, 8, 0.95)
+  ); /* Fondo semi-transparente que se oscurece */
+  backdrop-filter: blur(8px); /* Efecto de desenfoque */
+  -webkit-backdrop-filter: blur(8px);
+  padding: 18px 20px; /* Más padding */
+  border-top: 1px solid var(--card-border-subtle); /* Borde superior sutil */
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.7); /* Sombra hacia arriba */
+  justify-content: center;
+  margin-top: 30px; /* Más margen arriba para separar del contenido */
+  border-radius: 0; /* Quitamos el radio para que ocupe todo el ancho */
 }
 
-/* BOTONES */
+/* Botones generales */
 ion-button {
-    --border-radius: 10px;
-    --background: var(--accent-blue);
-    --background-hover: #2563eb;
-    --color: white;
-    font-weight: 800;
-    text-transform: none;
-    transition: transform 120ms ease, box-shadow 140ms ease;
+  --border-radius: var(--border-radius-md);
+  --background: var(--accent-blue);
+  --background-activated: var(--accent-blue-dark);
+  --background-hover: var(--accent-blue-dark);
+  --color: white;
+  font-weight: 700; /* Menos bold que antes, para dar jerarquía a result-buttons */
+  font-size: 0.95rem;
+  text-transform: none;
+  height: 48px; /* Altura consistente */
+  padding: 0 20px; /* Más padding lateral */
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+  transition: var(--transition-ease);
 }
 
 ion-button[color="danger"] {
-    --background: var(--accent-red);
+  --background: var(--accent-red);
+  --background-activated: var(--accent-red-dark);
+  --background-hover: var(--accent-red-dark);
+  --box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
 }
 
 ion-button[color="medium"] {
-    --background: #4b5563;
+  --background: #4b5563;
+  --background-activated: #374151;
+  --background-hover: #374151;
+  --box-shadow: 0 5px 15px rgba(75, 85, 99, 0.3);
 }
 
 ion-button:hover {
-    transform: translateY(-2px);
+  transform: translateY(-3px); /* Movimiento más pronunciado */
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6); /* Sombra más fuerte */
+}
+ion-button[color="danger"]:hover {
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.6);
+}
+ion-button[color="medium"]:hover {
+  box-shadow: 0 8px 20px rgba(75, 85, 99, 0.5);
 }
 
 ion-button:active {
-    transform: translateY(0);
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Modal internals */
-
 .modal-container {
-    padding: 20px;
-    color: var(--text-light);
-    max-width: 720px;
-    margin: 0 auto;
+  padding: 25px; /* Más padding */
+  color: var(--text-light);
+  max-width: 800px; /* Más ancho para contenido */
+  margin: 0 auto;
+  background: linear-gradient(
+    145deg,
+    var(--card-bg-light) 0%,
+    var(--card-bg-dark) 100%
+  ); /* Fondo para el contenido del modal */
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-deep);
+  border: 1px solid var(--card-border-subtle);
 }
 
 .modal-container h3 {
-    margin-top: 0;
-    font-size: 1.15rem;
-    letter-spacing: 0.4px;
+  margin-top: 0;
+  font-size: 1.4rem; /* Título de modal más grande */
+  letter-spacing: 0.6px;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.modal-container p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
 }
 
 .modal-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 14px;
+  display: flex;
+  gap: 12px; /* Más espacio */
+  justify-content: flex-end;
+  margin-top: 25px; /* Más margen */
 }
 
 .file-input {
-    width: 100%;
-    padding: 10px 8px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 8px;
-    color: var(--text-light);
+  width: 100%;
+  padding: 12px 10px; /* Más padding */
+  background: rgba(255, 255, 255, 0.05); /* Fondo más claro */
+  border-radius: var(--border-radius-sm);
+  color: var(--text-light);
+  border: 1px solid var(--card-border-subtle);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+.file-input:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  outline: none;
 }
 
-.items-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 16px;
+ion-item {
+  --background: transparent;
+  --inner-padding-end: 0; /* Ajuste para el padding interno */
+  --padding-start: 0;
+  color: var(--text-light);
 }
 
-.item-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-}
-
-.item-title {
-    color: var(--text-light);
-    font-weight: 800;
-    font-size: 0.96rem;
-}
-
-.item-desc {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-
-.audit-header-info .audit-code {
-    font-size: 1.02rem;
-    font-weight: 900;
-    color: var(--accent-blue);
-}
-
-.summary-count {
-    margin-bottom: 8px;
-    color: var(--text-muted);
+ion-label {
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 8px; /* Espacio debajo del label */
 }
 
 /* Audits list (index) */
 .audits-list-grid {
-    margin-top: 10px;
+  margin-top: 20px; /* Más margen superior */
+  position: relative;
+  z-index: 1; /* Para estar sobre el fondo animado */
 }
 
 .audit-list-card {
-    background: linear-gradient(180deg, rgba(20, 20, 22, 0.86), rgba(12, 12, 14, 0.86));
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.02);
-    transition: transform 220ms cubic-bezier(.2, .9, .3, 1), box-shadow 220ms cubic-bezier(.2, .9, .3, 1);
+  background: linear-gradient(
+    145deg,
+    var(--card-bg-light) 0%,
+    var(--card-bg-dark) 100%
+  );
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--card-border-subtle);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  transition: var(--transition-ease);
 }
 
 .audit-list-card:hover {
-    transform: translateY(-8px) scale(1.01);
-    box-shadow: 0 22px 48px rgba(2, 6, 23, 0.66);
+  transform: translateY(-10px) scale(1.02); /* Movimiento más dramático */
+  box-shadow: var(--shadow-card-hover);
 }
 
 .audit-list-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px; /* Más espacio */
+  padding: 18px 20px; /* Más padding */
 }
 
 .audit-list-code {
-    color: var(--accent-blue);
-    font-weight: 900;
+  color: var(--accent-blue);
+  font-weight: 900;
+  font-size: 1.05rem; /* Más grande */
+  letter-spacing: 0.7px;
 }
 
 .audit-list-title {
-    color: var(--text-light);
-    font-size: 1rem;
-    margin-top: 4px;
+  color: var(--text-light);
+  font-size: 1.15rem; /* Más grande y legible */
+  font-weight: 700;
+  margin-top: 6px;
+  margin-bottom: 4px;
 }
 
 .audit-list-meta {
-    color: var(--text-muted);
-    font-size: 0.85rem;
+  color: var(--text-muted);
+  font-size: 0.88rem; /* Más grande */
+  line-height: 1.4;
 }
 
 .audit-list-badge {
-    text-transform: uppercase;
-    font-weight: 800;
-    letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.7px;
 }
 
 /* Responsive tweaks */
-@media (max-width: 640px) {
-    .audit-card-header {
-        padding: 12px 14px;
-    }
-
-    .audit-list-content {
-        padding: 12px 12px;
-    }
-
-    .items-container {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 12px;
-    }
+@media (max-width: 768px) {
+  .audit-header-card {
+    padding: 18px;
+  }
+  .audit-card-header {
+    flex-direction: column; /* Apila elementos en pantallas pequeñas */
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .audit-header-info h2 {
+    font-size: 1.4rem;
+  }
+  .audit-header-info .audit-code {
+    font-size: 0.95rem;
+  }
+  .status-badge {
+    font-size: 0.68rem;
+    padding: 6px 10px;
+  }
+  .stats-card {
+    padding: 15px 10px;
+  }
+  .stats-value {
+    font-size: 1.3rem;
+  }
+  .items-container {
+    grid-template-columns: 1fr; /* Una sola columna */
+    gap: 15px;
+  }
+  .item-card ion-card-content,
+  .item-card .item-card-content {
+    padding: 15px;
+  }
+  .item-title {
+    font-size: 1rem;
+  }
+  .item-desc {
+    font-size: 0.88rem;
+  }
+  .result-buttons {
+    flex-wrap: wrap; /* Envuelve los botones si no caben */
+    justify-content: center;
+  }
+  .result-buttons ion-button,
+  .result-buttons button {
+    width: calc(50% - 5px); /* Dos botones por fila */
+    min-width: unset;
+    font-size: 0.85rem;
+    height: 38px;
+  }
+  .modal-container {
+    padding: 20px;
+  }
+  .modal-container h3 {
+    font-size: 1.25rem;
+  }
+  .footer-actions {
+    padding: 15px 15px;
+    gap: 10px;
+  }
+  ion-button {
+    font-size: 0.9rem;
+    height: 44px;
+    padding: 0 15px;
+  }
+  .audits-list-content {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+    gap: 8px;
+  }
+  .audit-list-badge {
+    align-self: flex-end; /* Mueve el badge a la derecha */
+  }
 }

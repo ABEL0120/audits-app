@@ -66,16 +66,20 @@ const App: React.FC = () => {
 
             {/* Protected routes */}
             <Route exact path="/Dashboard">
+              {/* <Dashboard /> */}
               {token ? <Dashboard /> : <Redirect to="/login" />}
             </Route>
             <Route exact path="/Audits">
-              {token ? <Audits /> : <Redirect to="/login" />}
+              <Audits />
+              {/* {token ? <Audits /> : <Redirect to="/login" />} */}
             </Route>
             {/* accept lowercase routes as well (links may use /audits/1) */}
             <Route exact path="/audits">
+              {/* <Audits /> */}
               {token ? <Audits /> : <Redirect to="/login" />}
             </Route>
             <Route path="/audits/:id">
+              {/* <Audits /> */}
               {token ? <Audits /> : <Redirect to="/login" />}
             </Route>
             <Route path="/Settings">
