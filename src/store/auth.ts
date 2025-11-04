@@ -1,5 +1,4 @@
-import create from "zustand";
-
+import { create } from 'zustand'
 type User = {
   id: number;
   name: string;

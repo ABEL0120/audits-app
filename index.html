@@ -16,7 +16,7 @@
     
     <link rel="manifest" href="/manifest.json" />
     
-    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+  <link rel="shortcut icon" type="image/png" href="/favicon.png" />
     
     <!-- add to homescreen for ios -->
     <meta name="mobile-web-app-capable" content="yes" />
@@ -25,6 +25,31 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Ensure <base> is absolute so icon URLs (Ionicons) and asset resolution work
+         when the app is loaded from nested routes or from the service worker. -->
+    <script>
+      (function () {
+        try {
+          var base = document.querySelector('base');
+          if (!base) {
+            base = document.createElement('base');
+            document.head.insertBefore(base, document.head.firstChild);
+            base.setAttribute('href', location.origin + '/');
+            return;
+          }
+          var href = base.getAttribute('href') || '/';
+          // If href is already absolute (starts with http/https), leave it.
+          if (!/^https?:\/\//i.test(href)) {
+            // Make sure it starts with a slash
+            if (href.charAt(0) !== '/') href = '/' + href;
+            base.setAttribute('href', location.origin + href);
+          }
+        } catch (e) {
+          // swallow errors; this is a best-effort fix for asset URL resolution
+          console.debug('base-normalize error', e);
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

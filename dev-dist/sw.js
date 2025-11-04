@@ -4755,12 +4755,13 @@ define([],(function () { 'use strict';
      * See https://goo.gl/S9QRab
      */
     precacheAndRoute([{
-      "url": "index.html",
-      "revision": "0.g3ivkahkilg"
+      "url": "/index.html",
+      "revision": "0.u0m5fjkv6og"
     }], {});
     cleanupOutdatedCaches();
-    registerRoute(new NavigationRoute(createHandlerBoundToURL("index.html"), {
-      allowlist: [/^\/$/]
+    registerRoute(new NavigationRoute(createHandlerBoundToURL("/index.html"), {
+      allowlist: [/^\/$/],
+      denylist: [/^\/api\//]
     }));
     registerRoute(({
       url
