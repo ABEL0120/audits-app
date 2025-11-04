@@ -19,6 +19,7 @@ import {
 import { checkmarkOutline, closeOutline, cameraOutline, warningOutline } from 'ionicons/icons';
 import { getAudit, AuditItem as ApiAudit, AuditItemDetail } from '../api/audits';
 import './AuditDetail.css';
+import { usePhotoGallery } from '../hooks/usePhotoGallery';
 
 interface Props {
   auditId: number;
@@ -45,6 +46,7 @@ const AuditDetail: React.FC<Props> = ({ auditId }) => {
   const [showDefectModalFor, setShowDefectModalFor] = useState<number | null>(null);
   const [showSummary, setShowSummary] = useState(false);
   const [summaryText, setSummaryText] = useState('');
+  const { takePhoto } = usePhotoGallery();
 
   const counts = useMemo(() => {
     const total = items.length;
@@ -231,10 +233,19 @@ const AuditDetail: React.FC<Props> = ({ auditId }) => {
       <IonModal isOpen={showPhotoModalFor !== null} onDidDismiss={() => setShowPhotoModalFor(null)}>
         <div className="modal-container">
           <h3>Añadir foto</h3>
-          <input className="file-input" type="file" accept="image/*" onChange={(e) => {
-            const f = e.target.files && e.target.files[0];
-            if (f && showPhotoModalFor) addPhoto(showPhotoModalFor, `${Date.now()}`);
-          }} />
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+            <input className="file-input" type="file" accept="image/*" onChange={(e) => {
+              const f = e.target.files && e.target.files[0];
+              if (f && showPhotoModalFor) addPhoto(showPhotoModalFor, `${Date.now()}`);
+            }} />
+
+            <IonButton onClick={async () => {
+              const saved = await takePhoto();
+              if (saved && showPhotoModalFor) addPhoto(showPhotoModalFor, saved);
+            }}>
+              <IonIcon slot="start" icon={cameraOutline} /> Tomar foto
+            </IonButton>
+          </div>
           <div className="modal-actions">
             <IonButton onClick={() => setShowPhotoModalFor(null)} fill="outline">Cancelar</IonButton>
             <IonButton onClick={() => setShowPhotoModalFor(null)}>Aceptar</IonButton>

@@ -1,6 +1,5 @@
 /// <reference types="vitest" />
 
-import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { defineConfig } from 'vite'
@@ -9,9 +8,13 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [
     react(),
-    legacy(),
     VitePWA({
       registerType: 'autoUpdate',
+      // Enable the SW in dev for easier testing (only enable while developing).
+      // Remove or set to false for production builds if you don't want a dev SW.
+      devOptions: {
+        enabled: true
+      },
       includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
         name: 'Audits App',
@@ -29,18 +32,27 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
           {
-            // API: network first but exclude auth endpoints
+            // API: use StaleWhileRevalidate so the app gets a cached response
+            // immediately while the SW updates the cache in the background.
+            // Still exclude auth/login to avoid caching credentials responses.
             urlPattern: ({ url }) => {
+              // only match same-origin API requests to avoid intercepting cross-origin
+              // backend calls (which can cause opaque responses / CORS issues).
               try {
-                return /\/api\/v1\/.*/.test(url.pathname) && !/auth\/login/.test(url.pathname);
+                return (
+                  url.origin === self.location.origin &&
+                  /\/api\/v1\/.*/.test(url.pathname) &&
+                  !/auth\/login/.test(url.pathname)
+                );
               } catch {
                 return false;
               }
             },
-            handler: 'NetworkFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'api-cache',
-              networkTimeoutSeconds: 10,
+              // allow caching opaque responses and successful ones
+              cacheableResponse: { statuses: [0, 200] },
               expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 }
             }
           },
@@ -57,6 +69,23 @@ export default defineConfig({
       }
     })
   ],
+  // Build tuning: split common vendor libraries into separate chunks to avoid
+  // extremely large single bundles and reduce the chunk-size warnings.
+  build: {
+    // Raise the warning limit a bit (KB) — still prefer splitting, see manualChunks
+    chunkSizeWarningLimit: 600,
+    // Note: manualChunks removed temporarily to test source of 'Unknown input options' warning.
+  },
+  // Dev server proxy: forward /api to backend to avoid CORS and cross-origin fetch issues
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  },
   test: {
     globals: true,
     environment: 'jsdom',
