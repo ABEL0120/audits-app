@@ -1,7 +1,20 @@
+// --- START OF FILE audits.ts (CORREGIDO) ---
+
 import { api } from "./auth";
 
-export interface Line { id: number; code?: string; name?: string; area?: string }
-export interface Person { id: number; name?: string; email?: string; employee_number?: string }
+// (Todas tus interfaces: Line, Person, Assignment, etc. se quedan igual)
+export interface Line {
+  id: number;
+  code?: string;
+  name?: string;
+  area?: string;
+}
+export interface Person {
+  id: number;
+  name?: string;
+  email?: string;
+  employee_number?: string;
+}
 
 export interface Assignment {
   id: number;
@@ -64,24 +77,23 @@ export interface AuditsListResponse {
   total: number;
 }
 
+/**
+ * Pide la lista de auditorías.
+ * No se preocupa por el caché. El Service Worker hará la magia.
+ */
 export async function listAudits(page = 1): Promise<AuditsListResponse> {
-  const headerAuth = api.defaults.headers.common["Authorization"] as string | undefined;
-  const storedToken = localStorage.getItem("audits:token");
-  const token = headerAuth?.replace(/^Bearer\s+/i, "") || storedToken || undefined;
-
   const resp = await api.get("/api/v1/audits", {
     params: { page },
-    ...(token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
   });
   return resp.data as AuditsListResponse;
 }
 
+/**
+ * Pide una auditoría específica por su ID.
+ * El Service Worker también se encargará de esto.
+ */
 export async function getAudit(id: number): Promise<AuditItem> {
-  const headerAuth = api.defaults.headers.common["Authorization"] as string | undefined;
-  const storedToken = localStorage.getItem("audits:token");
-  const token = headerAuth?.replace(/^Bearer\s+/i, "") || storedToken || undefined;
-
-  const resp = await api.get(`/api/v1/audits/${id}`, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
+  const resp = await api.get(`/api/v1/audits/${id}`);
   return resp.data as AuditItem;
 }
 
