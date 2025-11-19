@@ -70,6 +70,15 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (err) {
       console.debug("auth: logout localStorage error", err);
     }
+    // Best-effort: clear API runtime cache so next user/session doesn't see previous data
+    try {
+      if (typeof caches !== "undefined") {
+        // fire-and-forget; don't block UI logout
+        caches.delete("api-cache").catch((e) => console.debug("auth: cache delete error", e));
+      }
+    } catch (err) {
+      console.debug("auth: cache delete error", err);
+    }
     set({ token: null, user: null });
   },
 }));
